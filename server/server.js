@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root', // 자신의 MySQL 사용자명
-  password: 'minsu1234', // 자신의 MySQL 비밀번호
-  database: '????' // 자신의 MySQL 데이터베이스 이름
+  password: '', // 자신의 MySQL 비밀번호
+  database: 'poldb' // 자신의 MySQL 데이터베이스 이름
 });
 
 connection.connect((err) => {
@@ -24,7 +24,6 @@ connection.connect((err) => {
 app.post('/login', (req, res) => {
   const { userid, password } = req.body;
 
-  // MySQL 쿼리를 사용하여 사용자 인증
   const query = 'SELECT * FROM users WHERE userid = ? AND password = ?';
   connection.query(query, [userid, password], (err, results) => {
     if (err) {
@@ -36,6 +35,19 @@ app.post('/login', (req, res) => {
     } else {
       res.status(401).send('Invalid credentials');
     }
+  });
+});
+
+app.post('/signup', (req, res) => {
+  const { userid, password, name } = req.body; // name 추가
+
+  const query = 'INSERT INTO users (userid, password, name) VALUES (?, ?, ?)'; // name 추가
+  connection.query(query, [userid, password, name], (err, results) => { // name 추가
+    if (err) {
+      res.status(500).send('Server error');
+      return;
+    }
+    res.send('Signup successful');
   });
 });
 
