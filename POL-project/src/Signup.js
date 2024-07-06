@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [userid, setUserid] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState(''); // 이름 state 추가
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,6 +14,7 @@ const Signup = () => {
       const response = await axios.post('http://localhost:3001/signup', { userid, password, name });
       console.log(response.data); // 회원가입 성공 시 메시지
       alert('회원가입 성공');
+      navigate('/');
     } catch (error) {
       console.error(error);
       alert('회원가입 실패');
