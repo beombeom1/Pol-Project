@@ -10,10 +10,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-  host: 'localhost',
+  host: '172.20.10.8',
   user: 'root', // 자신의 MySQL 사용자명
   password: 'dmlqja1298', // 자신의 MySQL 비밀번호
   database: 'poldb' // 자신의 MySQL 데이터베이스 이름
+  
 });
 
 connection.connect((err) => {
