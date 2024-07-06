@@ -1,7 +1,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: 'sk-proj-Q0nO2UPvpXWZdRsfdsHGT3BlbkFJCebK8j1yJ4j6S3EJAJpZ',  // 실제 API 키로 대체하세요
+  apiKey: 'sk-proj-SumQIBL2z9D7hxc69HvLT3BlbkFJAEvPiwmleBN6VkloYYpP',  // 실제 API 키로 대체하세요
 });
 
 async function main() {
