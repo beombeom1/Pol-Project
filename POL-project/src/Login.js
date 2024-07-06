@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
-  const [userid, setuserid] = useState('');
+  const [userid, setUserid] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 로그인 로직을 여기에 추가합니다.
-    // 데이터베이스 mysql 연동 및 로직 추가
     try {
-        const response = await axios.post('http://localhost:3001/login', { userid, password });
-        console.log(response.data); // 로그인 성공 시 메시지
+      const response = await axios.post('http://localhost:3001/login', { userid, password });
+      console.log(response.data); // 로그인 성공 시 메시지
+      const { goal, level } = response.data;
+
+      if (goal == null || level == null) {
+        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
+        alert('학습 설정이 필요합니다.');
+        navigate('/study-setup');
+      } else {
+        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('로그인 성공');
-      } catch (error) {
-        console.error(error);
-        alert('로그인 실패');
+        navigate('/home');
       }
+    } catch (error) {
+      console.error(error);
+      alert('로그인 실패');
+    }
   };
 
   return (
@@ -26,10 +36,10 @@ const Login = () => {
         <div style={{ marginBottom: '10px' }}>
           <label htmlFor="userid">아이디:</label>
           <input
-            type="userid"
+            type="text"
             id="userid"
             value={userid}
-            onChange={(e) => setuserid(e.target.value)}
+            onChange={(e) => setUserid(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           />
@@ -49,6 +59,7 @@ const Login = () => {
           로그인
         </button>
       </form>
+      <a href='/Signup'>회원가입</a>
     </div>
   );
 };

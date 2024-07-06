@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root', // 자신의 MySQL 사용자명
-  password: '', // 자신의 MySQL 비밀번호
+  password: 'dmlqja1298', // 자신의 MySQL 비밀번호
   database: 'poldb' // 자신의 MySQL 데이터베이스 이름
 });
 
@@ -31,7 +31,11 @@ app.post('/login', (req, res) => {
       return;
     }
     if (results.length > 0) {
-      res.send('Login successful');
+      res.json({
+        success: true,
+        goal: results[0].goal,
+        level: results[0].level
+      });
     } else {
       res.status(401).send('Invalid credentials');
     }
@@ -48,6 +52,23 @@ app.post('/signup', (req, res) => {
       return;
     }
     res.send('Signup successful');
+  });
+});
+
+app.post('/setup', (req, res) => {
+  const { userid, goal, level } = req.body;
+
+  console.log({ userid, goal, level }); // 수신된 데이터를 로그로 확인합니다.
+
+  const query = 'UPDATE users SET goal = ?, level = ? WHERE userid = ?';
+  connection.query(query, [goal, level, userid], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('서버 오류');
+      return;
+    }
+    console.log('설정 성공:', results);
+    res.send('설정이 성공적으로 완료되었습니다.');
   });
 });
 
