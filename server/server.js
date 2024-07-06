@@ -4,7 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql');
 
 const app = express();
-const port = 3001;
+const port = 3002;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
   host: '172.20.10.8',
   user: 'root', // 자신의 MySQL 사용자명
-  password: 'dmlqja1298', // 자신의 MySQL 비밀번호
+  password: 'minsu1234', // 자신의 MySQL 비밀번호
   database: 'poldb' // 자신의 MySQL 데이터베이스 이름
   
 });
