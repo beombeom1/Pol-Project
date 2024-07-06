@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.gamja-flower-regular {
+  font-family: "Gamja Flower", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: "Gamja Flower", sans-serif;
+  background-color: #fff6dc;
+}
+
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #fff6dc;
+}
+
+nav {
+  background-color: #fff6dc;
+  color: #000000;
+  padding: 1rem;
+  min-height: 100vh;
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px solid #c2c2c2;
+}
+
+.logo {
+  width: 200px; /* 로고 크기 조정 */
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+nav ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
+
+nav li {
+  margin: 4rem 0;
+  text-align: center;
+}
+
+nav a {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #000000;
+  text-decoration: none;
+  font-size: 30px;
+}
+
+/* 이미지 링크에 대한 스타일 */
+.logo-link:hover {
+  /* 원하는 스타일 추가 */
+  /* 예시: 백그라운드 색상 변경 */
+  background-color: transparent; /* 이미지에는 배경색 없도록 설정 */
+}
+
+main {
+  font-family: "Gamja Flower", sans-serif;
+  flex: 1;
+  padding: 1rem;
+  background-color: #fff6dc;
+}
+
+footer {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  text-align: center;
+}
