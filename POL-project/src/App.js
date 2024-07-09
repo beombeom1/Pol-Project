@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
+
 import Main from './components/Main';
+// import Record from './Record';
 import Learn from './components/Learn';
 import Speak from './components/Speak';
 import Listen from './components/Listen';
