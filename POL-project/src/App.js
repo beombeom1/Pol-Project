@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+=======
+import React from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
+
+>>>>>>> abe968bb4354b5868b6a0f208814e0bda0c1fca0
 import Main from './components/Main';
+// import Record from './Record';
 import Learn from './components/Learn';
 import Speak from './components/Speak';
 import Listen from './components/Listen';

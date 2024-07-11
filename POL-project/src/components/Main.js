@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import Record from './Record';
+import Gpt from './Gpt';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
 
@@ -183,6 +185,7 @@ function Main() {
     const { name, value } = e.target;
     setSelectedEvent(prevEvent => ({ ...prevEvent, [name]: value }));
   };
+  
 
   return (
     <div>
@@ -200,6 +203,7 @@ function Main() {
           출석체크
         </button>
       </div>
+<<<<<<< HEAD
       <div className="search-form">
         <h2>일정 검색</h2>
         <input
@@ -287,6 +291,14 @@ function Main() {
           </div>
         </div>
       )}
+=======
+      <div class="record_btn">
+        <Record />
+      </div>
+      <div>
+        <Gpt />
+      </div>
+>>>>>>> abe968bb4354b5868b6a0f208814e0bda0c1fca0
     </div>
   );
 }
