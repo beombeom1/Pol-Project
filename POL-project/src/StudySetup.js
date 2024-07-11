@@ -13,7 +13,7 @@ const StudySetup = () => {
   
     try {
       console.log({ userid, goal, level }); // 전송할 데이터를 로그로 확인합니다.
-      const response = await axios.post('http://localhost:3001/setup', { userid, goal, level });
+      const response = await axios.post('http://localhost:3002/setup', { userid, goal, level });
       console.log(response.data); // 서버로부터의 응답을 확인합니다.
       alert('설정이 완료되었습니다.');
       navigate('/home');
