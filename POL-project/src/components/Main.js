@@ -290,6 +290,12 @@ function Main() {
           </div>
         </div>
       )}
+      <div class="record_btn">
+        <Record />
+      </div>
+      <div>
+        <Gpt />
+      </div>
     </div>
   );
 }

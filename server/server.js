@@ -1,50 +1,45 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const axios = require('axios');
-const cors = require('cors');
-const mysql = require('mysql');
-const fs = require('fs');
-const FormData = require('form-data');
+import express from 'express';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import axios from 'axios';
+import cors from 'cors';
+import mysql from 'mysql';
+import fs from 'fs';
+import FormData from 'form-data';
+import dotenv from 'dotenv';
+import { SpeechClient } from '@google-cloud/speech';
+import { TextToSpeechClient } from '@google-cloud/text-to-speech';
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import ffprobeInstaller from '@ffprobe-installer/ffprobe';
+
+dotenv.config();
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 const port = 3002;
 
+const ffmpegPath = ffmpegInstaller.path;
+const ffprobePath = ffprobeInstaller.path;
+ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfprobePath(ffprobePath);
+
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
-// OpenAI API 키 설정
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
-
-app.post('/transcribe', upload.single('file'), async (req, res) => {
-    try {
-        const file = req.file;
-        if (!file) {
-            return res.status(400).json({ error: 'No file provided' });
-        }
-
-        const formData = new FormData();
-        formData.append('file', fs.createReadStream(file.path));
-        formData.append('model', 'whisper-1');
-
-        const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
-            headers: {
-                ...formData.getHeaders(),
-                'Authorization': `Bearer ${OPENAI_API_KEY}`,
-            },
-        });
-
-        // 파일 삭제
-        fs.unlinkSync(file.path);
-
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to transcribe audio' });
-    }
+// 서비스 계정 키 파일 경로 설정
+const speechClient = new SpeechClient({
+  keyFilename: process.env.SPEECH_KEY_FILENAME // JSON 키 파일의 실제 경로
+});
+const ttsClient = new TextToSpeechClient({
+  keyFilename: process.env.TTS_KEY_FILENAME // JSON 키 파일의 실제 경로
 });
 
+// OpenAI API 키 설정
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+// MySQL 연결 설정
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -57,6 +52,144 @@ connection.connect((err) => {
   console.log('Connected to MySQL database!');
 });
 
+// 오디오 파일의 샘플 레이트를 가져오는 함수
+const getSampleRate = (filePath) => {
+  return new Promise((resolve, reject) => {
+    ffmpeg.ffprobe(filePath, (err, metadata) => {
+      if (err) {
+        reject(err);
+      } else {
+        const sampleRate = metadata.streams[0].sample_rate;
+        resolve(parseInt(sampleRate, 10));
+      }
+    });
+  });
+};
+
+// OpenAI API를 이용한 음성 인식
+app.post('/transcribe', upload.single('file'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
+
+    const formData = new FormData();
+    formData.append('file', fs.createReadStream(file.path));
+    formData.append('model', 'whisper-1');
+
+    const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
+      headers: {
+        ...formData.getHeaders(),
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+    });
+
+    // 파일 삭제
+    fs.unlinkSync(file.path);
+
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to transcribe audio' });
+  }
+});
+
+// Google Speech-to-Text API를 이용한 음성 인식
+app.post('/transcribe-google', upload.single('file'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
+    const webmFilePath = `${file.path}.webm`;
+    await new Promise((resolve, reject) => {
+      ffmpeg(file.path)
+        .output(webmFilePath)
+        .on('end', resolve)
+        .on('error', reject)
+        .run();
+    });
+
+    const sampleRate = await getSampleRate(webmFilePath);
+
+    const audio = {
+      content: fs.readFileSync(webmFilePath).toString('base64'),
+    };
+
+    const request = {
+      audio: audio,
+      config: {
+        encoding: 'WEBM_OPUS',
+        sampleRateHertz: sampleRate,
+        languageCode: 'ko-KR',
+      },
+    };
+
+    const [response] = await speechClient.recognize(request);
+    const transcription = response.results
+      .map(result => result.alternatives[0].transcript)
+      .join('\n');
+
+    fs.unlinkSync(file.path);
+    fs.unlinkSync(webmFilePath);
+
+    res.json({ text: transcription });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to transcribe audio' });
+    console.log('ffmpeg path:', ffmpegPath);
+    console.log('ffprobe path:', ffprobePath);
+  }
+});
+
+// GPT-3 API를 이용한 텍스트 응답
+app.post('/api/openai', async (req, res) => {
+  const { prompt } = req.body;
+  console.log(prompt);
+
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: "gpt-3.5-turbo-0125",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: prompt }
+      ]
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('API 응답 데이터:', JSON.stringify(response.data, null, 2));
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Google Text-to-Speech API를 이용한 음성 합성
+app.post('/synthesize', async (req, res) => {
+  const { text } = req.body;
+
+  const request = {
+    input: { text: text },
+    voice: { languageCode: 'ko-KR', ssmlGender: 'NEUTRAL' },
+    audioConfig: { audioEncoding: 'MP3' },
+  };
+
+  try {
+    const [response] = await ttsClient.synthesizeSpeech(request);
+    res.set('Content-Type', 'audio/mp3');
+    res.send(response.audioContent);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to synthesize speech' });
+  }
+});
+
+// 로그인 API
 app.post('/login', (req, res) => {
   const { userid, password } = req.body;
 
@@ -78,6 +211,7 @@ app.post('/login', (req, res) => {
   });
 });
 
+// 회원가입 API
 app.post('/signup', (req, res) => {
   const { userid, password, name, school } = req.body;
 
@@ -91,7 +225,7 @@ app.post('/signup', (req, res) => {
   });
 });
 
-
+// 사용자 설정 API
 app.post('/setup', (req, res) => {
   const { userid, goal, level } = req.body;
 
@@ -109,6 +243,7 @@ app.post('/setup', (req, res) => {
   });
 });
 
+// 출석체크 API
 app.post('/attendance', (req, res) => {
   const { userid } = req.body;
   const attendance_date = new Date().toISOString().slice(0, 10);
@@ -139,6 +274,7 @@ app.post('/attendance', (req, res) => {
   });
 });
 
+// 출석 데이터 가져오기 API
 app.get('/attendance/:userid', (req, res) => {
   const { userid } = req.params;
 
@@ -154,6 +290,7 @@ app.get('/attendance/:userid', (req, res) => {
   });
 });
 
+// 이벤트 데이터 가져오기 API
 app.get('/events/:userid', (req, res) => {
   const { userid } = req.params;
 
@@ -169,6 +306,7 @@ app.get('/events/:userid', (req, res) => {
   });
 });
 
+// 이벤트 추가 API
 app.post('/events', (req, res) => {
   const { userid, title, start_date, end_date } = req.body;
 
@@ -197,6 +335,7 @@ app.post('/events', (req, res) => {
   });
 });
 
+// 이벤트 삭제 API
 app.delete('/events/:id', (req, res) => {
   const eventId = req.params.id;
 
@@ -211,6 +350,7 @@ app.delete('/events/:id', (req, res) => {
   });
 });
 
+// 이벤트 수정 API
 app.put('/events/:id', (req, res) => {
   const eventId = req.params.id;
   const { title, start_date, end_date } = req.body;
@@ -226,6 +366,7 @@ app.put('/events/:id', (req, res) => {
   });
 });
 
+// 이벤트 검색 API
 app.get('/events/search/:userid', (req, res) => {
   const { userid } = req.params;
   const { query } = req.query; // 검색어를 쿼리 파라미터로 받습니다.
@@ -247,7 +388,6 @@ app.get('/events/search/:userid', (req, res) => {
     res.json(results);
   });
 });
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
