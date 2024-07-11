@@ -1,13 +1,49 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const axios = require('axios');
 const cors = require('cors');
 const mysql = require('mysql');
+const fs = require('fs');
+const FormData = require('form-data');
 
 const app = express();
+const upload = multer({ dest: 'uploads/' });
 const port = 3002;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// OpenAI API 키 설정
+const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY';
+
+app.post('/transcribe', upload.single('file'), async (req, res) => {
+    try {
+        const file = req.file;
+        if (!file) {
+            return res.status(400).json({ error: 'No file provided' });
+        }
+
+        const formData = new FormData();
+        formData.append('file', fs.createReadStream(file.path));
+        formData.append('model', 'whisper-1');
+
+        const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
+            headers: {
+                ...formData.getHeaders(),
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            },
+        });
+
+        // 파일 삭제
+        fs.unlinkSync(file.path);
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to transcribe audio' });
+    }
+});
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -71,6 +107,8 @@ app.post('/setup', (req, res) => {
     res.send('설정이 성공적으로 완료되었습니다.');
   });
 });
+
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

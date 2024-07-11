@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import Record from './Record';
+import Gpt from './Gpt';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
 
@@ -19,6 +21,7 @@ function Main() {
     setEvents('');
     alert('출석체크 되었습니다.');
   };
+  
 
   return (
     <div>
@@ -34,6 +37,12 @@ function Main() {
         <button className="check-attendance-btn" onClick={handleCheckAttendance}>
           출석체크
         </button>
+      </div>
+      <div class="record_btn">
+        <Record />
+      </div>
+      <div>
+        <Gpt />
       </div>
     </div>
   );
