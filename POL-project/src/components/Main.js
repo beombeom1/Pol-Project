@@ -203,7 +203,6 @@ function Main() {
           출석체크
         </button>
       </div>
-<<<<<<< HEAD
       <div className="search-form">
         <h2>일정 검색</h2>
         <input
@@ -291,14 +290,6 @@ function Main() {
           </div>
         </div>
       )}
-=======
-      <div class="record_btn">
-        <Record />
-      </div>
-      <div>
-        <Gpt />
-      </div>
->>>>>>> abe968bb4354b5868b6a0f208814e0bda0c1fca0
     </div>
   );
 }

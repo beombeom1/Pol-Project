@@ -109,7 +109,6 @@ app.post('/setup', (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 app.post('/attendance', (req, res) => {
   const { userid } = req.body;
   const attendance_date = new Date().toISOString().slice(0, 10);
@@ -248,8 +247,6 @@ app.get('/events/search/:userid', (req, res) => {
     res.json(results);
   });
 });
-=======
->>>>>>> abe968bb4354b5868b6a0f208814e0bda0c1fca0
 
 
 app.listen(port, () => {
