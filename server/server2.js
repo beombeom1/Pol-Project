@@ -1,16 +1,25 @@
-const express = require('express');
-const multer = require('multer');
-const { SpeechClient } = require('@google-cloud/speech');
-const fs = require('fs');
-const cors = require('cors');
-const ffmpeg = require('fluent-ffmpeg');
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-const ffprobePath = require('@ffprobe-installer/ffprobe').path;
+import express from 'express';
+import multer from 'multer';
+import axios from 'axios';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { SpeechClient } from '@google-cloud/speech';
+import { TextToSpeechClient } from '@google-cloud/text-to-speech';
+import fs from 'fs';
+import cors from 'cors';
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import ffprobeInstaller from '@ffprobe-installer/ffprobe';
 
+const ffmpegPath = ffmpegInstaller.path;
+const ffprobePath = ffprobeInstaller.path;
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
+dotenv.config();
+
 
 const app = express();
+app.use(bodyParser.json());
 const upload = multer({ dest: 'uploads/' });
 const PORT = 5000;
 
@@ -18,9 +27,13 @@ const PORT = 5000;
 const speechClient = new SpeechClient({
     keyFilename: 'C:\\Users\\user\\Desktop\\apikey/stt-test-428805-44d33bb38495.json' // JSON 키 파일의 실제 경로
 });
+const ttsClient = new TextToSpeechClient({
+    keyFilename: 'C:\\Users\\user\\Desktop\\apikey/tts-test-428914-5c7186d24d82.json' // JSON 키 파일의 실제 경로
+});
 
 // CORS 설정
 app.use(cors());
+app.use(express.json()); // JSON 본문 구문 분석 미들웨어 추가
 
 // 오디오 파일의 샘플 레이트를 가져오는 함수
 const getSampleRate = (filePath) => {
@@ -85,7 +98,55 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
         console.log('ffprobe path:', ffprobePath);
     }
 });
+// GPT API 로 TEXT 에 대한 응답 대화 생성해서 텍스트 반환
+app.post('/api/openai', async (req, res) => {
+    const { prompt } = req.body;
+    console.log(prompt);
+
+    try {
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: "gpt-3.5-turbo-0125",
+            messages: [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: prompt }
+            ]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // 응답 데이터를 파싱하기 전에 터미널에 출력 (깊은 복사를 위해 JSON.stringify 사용)
+        console.log('API 응답 데이터:', JSON.stringify(response.data, null, 2));
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+app.post('/synthesize', async (req, res) => {
+    const { text } = req.body;
+
+    const request = {
+        input: { text: text },
+        voice: { languageCode: 'ko-KR', ssmlGender: 'NEUTRAL' },
+        audioConfig: { audioEncoding: 'MP3' },
+    };
+
+    try {
+        const [response] = await ttsClient.synthesizeSpeech(request);
+        res.set('Content-Type', 'audio/mp3');
+        res.send(response.audioContent);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to synthesize speech' });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+

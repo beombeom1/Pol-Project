@@ -3,6 +3,8 @@ import axios from 'axios';
 
 function App() {
     const [transcript, setTranscript] = useState('');
+    const [audioUrl, setAudioUrl] = useState(null);
+    const [gptResponse, setGptResponse] = useState('');
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
 
@@ -35,23 +37,60 @@ function App() {
                     },
                 });
                 setTranscript(response.data.text);
+                
+                
+                // GPT API 호출
+                const prompt = response.data.text;
+                console.log('Prompt for GPT:', response.data.text);
+                const callGptApi = async (prompt) => {
+                    try {
+                        const response = await axios.post('http://localhost:5000/api/openai', { prompt });
+                        return response.data.choices[0].message.content;
+                    } catch (error) {
+                        console.error('Error calling GPT API:', error);
+                        return 'Failed to get response from GPT.';
+                    }
+                };
+                const gptResponse = await callGptApi(prompt);
+                setGptResponse(gptResponse);
+
+                // TTS로 GPT 응답 변환
+                await synthesizeSpeech(gptResponse);
             } catch (error) {
                 console.error('Error:', error);
-                alert('Failed to transcribe audio.');
+                alert('Failed to process audio.');
             }
         };
         audioChunksRef.current = [];
         console.log("Recording stopped");
     };
 
+    
+
+    const synthesizeSpeech = async (text) => {
+        try {
+            const response = await axios.post('http://localhost:5000/synthesize', { text: text }, {
+                responseType: 'arraybuffer',
+            });
+            const audioBlob = new Blob([response.data], { type: 'audio/mp3' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            setAudioUrl(audioUrl);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to synthesize speech.');
+        }
+    };
+
     return (
         <div className="App">
-            <h1>Google Cloud STT Example</h1>
+            <h1>Google Cloud STT, GPT, and TTS Example</h1>
             <div className="record_btn">
                 <button type="button" onClick={startRecord}>⏺️</button>
                 <button type="button" onClick={endRecord}>🛑</button>
             </div>
-            <p>{transcript}</p>
+            <p>Transcript: {transcript}</p>
+            <p>GPT Response: {gptResponse}</p>
+            {audioUrl && <audio controls src={audioUrl}></audio>}
         </div>
     );
 }

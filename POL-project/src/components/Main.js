@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Record from './Record';
+import Gpt from './Gpt';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
 
@@ -39,6 +40,9 @@ function Main() {
       </div>
       <div class="record_btn">
         <Record />
+      </div>
+      <div>
+        <Gpt />
       </div>
     </div>
   );
