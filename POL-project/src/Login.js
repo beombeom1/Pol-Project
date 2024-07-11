@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+
+const Login = ({ login }) => {
   const [userid, setUserid] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -10,18 +11,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/login', { userid, password });
+      const response = await axios.post('http://localhost:3002/login', { userid, password });
       console.log(response.data); // 로그인 성공 시 메시지
       const { goal, level } = response.data;
+      console.log('Goal:', goal, 'Level:', level);
 
       if (goal == null || level == null) {
         localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('학습 설정이 필요합니다.');
-        navigate('/study-setup');
+        navigate('/StudySetup');
       } else {
         localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('로그인 성공');
-        navigate('/home');
+        navigate('/Main');
       }
     } catch (error) {
       console.error(error);
