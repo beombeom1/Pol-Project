@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function Learn() {
+function Learn({ toggleSidebar }) {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
@@ -45,7 +45,11 @@ function Learn() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>OpenAI API와 통신하기</h1>
+            <button className="sidebar-toggle" onClick={toggleSidebar}>
+                ☰
+            </button>
+            <div></div>
+                
                 <form onSubmit={handleSubmit}>
                     <textarea
                         style={{ display: 'none' }}
