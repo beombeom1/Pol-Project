@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Learn({ toggleSidebar }) {
-    const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const [name, setName] = useState('');
+    const [goal, setGoal] = useState('');
+    const [level, setLevel] = useState('');
+
+    const userid = localStorage.getItem('userid');
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const res = await axios.get(`http://localhost:3002/userinfo/${userid}`);
+                console.log('User Info:', res.data);  // 응답 데이터를 로그에 출력
+                setName(res.data.name);
+                setGoal(res.data.goal);
+                setLevel(res.data.level);
+            } catch (error) {
+                console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+            }
+        };
+    
+        if (userid) {
+            fetchUserInfo(); // 사용자 정보를 가져오는 함수 호출
+        }
+    }, [userid]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const prompt = `${goal} ${level}`;
 
         try {
             const res = await axios.post('http://localhost:3001/api/openai', { prompt });
@@ -45,20 +69,20 @@ function Learn({ toggleSidebar }) {
     return (
         <div className="App">
             <header className="App-header">
-            <button className="sidebar-toggle" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div></div>
-                
+                <button className="sidebar-toggle" onClick={toggleSidebar}>
+                    ☰
+                </button>
+                <div></div>
+                <h2>문제풀기{name}의 </h2>
                 <form onSubmit={handleSubmit}>
-                    <textarea
-                        style={{ display: 'none' }}
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        placeholder="질문을 입력하세요"
+                    <input
+                        type="hidden"
+                        value={`${goal} ${level}`}
+                        readOnly
                     />
                     <button type="submit">다음문제</button>
                 </form>
+                
                 <div>
                     <h2>응답:</h2>
                     {error && <p style={{color: 'red'}}>{error}</p>}

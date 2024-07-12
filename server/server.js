@@ -48,7 +48,7 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'minsu1234',
+  password: 'dmlqja1298',
   database: 'poldb'
 });
 
@@ -248,6 +248,25 @@ app.get('/events/search/:userid', (req, res) => {
   });
 });
 
+// 사용자 정보를 가져오는 엔드포인트 추가
+app.get('/userinfo/:userid', (req, res) => {
+  const { userid } = req.params;
+
+  const query = 'SELECT name, goal, level FROM users WHERE userid = ?';
+  connection.query(query, [userid], (err, results) => {
+    if (err) {
+      console.error('DB에서 사용자 정보를 가져오는 중 에러 발생:', err);
+      res.status(500).send('서버 오류');
+      return;
+    }
+
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).send('사용자를 찾을 수 없습니다.');
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
