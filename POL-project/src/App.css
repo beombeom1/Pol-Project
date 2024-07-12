@@ -13,12 +13,13 @@
 body {
   font-family: "Gamja Flower", sans-serif;
   background-color: #fff6dc;
+  overflow: hidden; 
 }
 
 .App {
   display: flex;
   min-height: 100vh;
-  flex-direction: column;
+  flex-direction: row;
   background-color: #fff6dc;
 }
 
@@ -31,11 +32,10 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 2px solid #c2c2c2;
 }
 
 .logo {
-  width: 200px; /* 로고 크기 조정 */
+  width: 200px;
   height: auto;
   margin-bottom: 1rem;
 }
@@ -48,34 +48,95 @@ nav ul {
 
 nav li {
   margin: 4rem 0;
-  text-align: center;
+  text-align: left; /* 왼쪽 정렬로 수정 */
+  margin-left: 13%;
 }
 
 nav a {
-  display: block;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center; /* 아이콘과 텍스트 수직 정렬 */
   color: #000000;
   text-decoration: none;
   font-size: 30px;
 }
 
-/* 이미지 링크에 대한 스타일 */
 .logo-link:hover {
-  /* 원하는 스타일 추가 */
-  /* 예시: 백그라운드 색상 변경 */
-  background-color: transparent; /* 이미지에는 배경색 없도록 설정 */
+  background-color: transparent; 
 }
 
 main {
   font-family: "Gamja Flower", sans-serif;
   flex: 1;
-  padding: 1rem;
   background-color: #fff6dc;
+  padding-top: -2rem;
 }
 
-footer {
-  background-color: #f8f9fa;
+.sidebar {
+  background-color: #fff6dc;
+  color: #000000;
   padding: 1rem;
-  text-align: center;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px solid #c2c2c2;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
 }
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
+
+.sidebar a:hover {
+  transform: scale(1.1); /* 버튼을 10% 확대 */
+  cursor: pointer;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-toggle a {
+  text-decoration: none;
+  color: black;
+  margin-left: 3%;
+}
+
+.main-blur {
+  filter: blur(5px);
+}
+
+.sidebar nav ul li {
+  display: block;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬 */
+}
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+

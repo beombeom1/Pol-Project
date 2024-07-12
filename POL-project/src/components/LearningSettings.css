@@ -1,0 +1,34 @@
+.learning-settings-container {
+    margin-top: 4%;
+    background-color: #fff6dc;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 1px solid black;
+    margin-left: 15%;
+    width: 500px;
+    height: 460px;
+  }
+  
+  .learning-settings-container h2 {
+    color: black;
+    text-align: center;
+    margin-top: -10%;
+    font-size: 30px;
+    margin-bottom: 80px;
+  }
+
+  .word{
+    text-align: left;
+    margin-left: 12%;
+  }
+  
+  .word span {
+    font-weight: bold;
+}
+
+.word div {
+    margin-bottom: 15px; /* 원하는 간격으로 조정 */
+}
+
+
