@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Learn({ toggleSidebar }) {
-    const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
@@ -11,6 +10,7 @@ function Learn({ toggleSidebar }) {
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [level, setLevel] = useState('');
+
     const userid = localStorage.getItem('userid');
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function Learn({ toggleSidebar }) {
         e.preventDefault();
 
         const prompt = `${goal} ${level}`;
-        console.log('Prompt:', prompt);
+
         try {
             const res = await axios.post('http://localhost:3001/api/openai', { prompt });
             if (res.data) {
@@ -69,11 +69,11 @@ function Learn({ toggleSidebar }) {
     return (
         <div className="App">
             <header className="App-header">
-            <button className="sidebar-toggle" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div></div>
-                
+                <button className="sidebar-toggle" onClick={toggleSidebar}>
+                    ☰
+                </button>
+                <div></div>
+                <h2>문제풀기{name}의 </h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="hidden"
