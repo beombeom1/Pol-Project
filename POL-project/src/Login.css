@@ -1,0 +1,79 @@
+body {
+    background-color: #fff6dc; /* 웹 페이지 배경색을 노란색으로 설정 */
+  }
+  
+  .login-container {
+    background: white;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 500px;
+    margin: 180px auto; /* 수평 중앙 정렬을 위해 auto */
+    text-align: center; /* 전체 컨테이너의 텍스트 중앙 정렬 */
+  }
+  
+  h1 {
+    margin-bottom: 1px; /* 기존 30px에서 1px로 줄임 */
+    margin-top: 50px; /* 상단 여백을 설정 */
+    color: #282c34;
+  }
+  
+  .form-group {
+    margin-bottom: -50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 70px;
+    color: #282c34;
+  }
+  
+  .form-group input {
+    width: 70%;
+    height: 40px;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0; 
+  }
+  
+  .lg-btn {
+    padding: 10px 15px;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    width: 40%; /* 너비를 조정하여 버튼을 줄임 */
+    margin-top: 100px;
+    display: block; /* 중앙 정렬을 위해 display: block 추가 */
+    margin-left: auto; /* 자동 왼쪽 여백 설정 */
+    margin-right: auto; /* 자동 오른쪽 여백 설정 */
+  }
+  
+  .lg-btn:hover {
+    background-color: #21a1f1;
+  }
+  
+  .additional-links {
+    margin-top: 70px; /* 링크들과 버튼 사이의 간격 설정 */
+    font-size: 14px; /* 링크 텍스트 크기 설정 */
+    text-align: center; /* 링크들 가운데 정렬 */
+  }
+  
+  .additional-links a {
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #666; /* 링크 색상 설정 */
+    margin: 0 10px; /* 링크들 사이의 간격 설정 */
+  }
+  
+  .additional-links a:hover {
+    color: #282c34; /* 호버시 링크 색상 변경 */
+  }
+  

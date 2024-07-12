@@ -1,11 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const axios = require('axios');
-const cors = require('cors');
-const mysql = require('mysql');
-const fs = require('fs');
-const FormData = require('form-data');
+import express from 'express';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import axios from 'axios';
+import cors from 'cors';
+import mysql from 'mysql';
+import fs from 'fs';
+import FormData from 'form-data';
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -48,7 +48,7 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'wjddn133',
+  password: 'minsu1234',
   database: 'poldb'
 });
 
@@ -109,7 +109,6 @@ app.post('/setup', (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 app.post('/attendance', (req, res) => {
   const { userid } = req.body;
   const attendance_date = new Date().toISOString().slice(0, 10);
@@ -248,8 +247,6 @@ app.get('/events/search/:userid', (req, res) => {
     res.json(results);
   });
 });
-=======
->>>>>>> abe968bb4354b5868b6a0f208814e0bda0c1fca0
 
 
 app.listen(port, () => {
