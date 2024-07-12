@@ -11,7 +11,6 @@ function Learn({ toggleSidebar }) {
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [level, setLevel] = useState('');
-
     const userid = localStorage.getItem('userid');
 
     useEffect(() => {
@@ -36,7 +35,7 @@ function Learn({ toggleSidebar }) {
         e.preventDefault();
 
         const prompt = `${goal} ${level}`;
-
+        console.log('Prompt:', prompt);
         try {
             const res = await axios.post('http://localhost:3001/api/openai', { prompt });
             if (res.data) {
