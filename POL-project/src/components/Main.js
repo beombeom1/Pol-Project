@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import Record from './Record';
-import Gpt from './Gpt';
+import { Link } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
+import Record from './Record';
+import Gpt from './Gpt';
+import LearningSettings from './LearningSettings';
 
 const localizer = momentLocalizer(moment);
 
-function Main() {
+function Main({ setSidebarVisible }) {
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' });
   const [searchResults, setSearchResults] = useState([]);
@@ -17,7 +19,12 @@ function Main() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isSettingsDone, setIsSettingsDone] = useState(false);
   const userid = localStorage.getItem('userid'); // 로컬 스토리지에서 userid 가져오기
+
+  useEffect(() => {
+    setSidebarVisible && setSidebarVisible(true); // 메인 화면에서는 사이드바를 항상 보이게 설정
+  }, [setSidebarVisible]);
 
   useEffect(() => {
     if (userid) {
@@ -185,23 +192,38 @@ function Main() {
     const { name, value } = e.target;
     setSelectedEvent(prevEvent => ({ ...prevEvent, [name]: value }));
   };
-  
+
+  const handleSettingsComplete = () => {
+    setIsSettingsDone(true);
+  };
 
   return (
-    <div>
-      <h1>{userid}님 환영합니다.</h1>
-      <div className="calendar-container">
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          className="custom-calendar"
-          onSelectEvent={handleSelectEvent} // 이벤트 클릭 시 핸들러
-        />
-        <button className="check-attendance-btn" onClick={handleCheckAttendance}>
-          출석체크
-        </button>
+    <div className="main-container">
+      <h1>
+      <Link to='/login' onClick={() => setSidebarVisible(false)}>로그인</Link>
+      <Link to='/signup' onClick={() => setSidebarVisible(false)}>회원가입</Link> 
+      </h1>
+      <div className="content-container">
+        <div className="calendar-container">
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            className="custom-calendar"
+            onSelectEvent={handleSelectEvent} // 이벤트 클릭 시 핸들러
+          />
+          <button className="check-attendance-btn" onClick={handleCheckAttendance}>
+            출석체크
+          </button>
+        </div>
+        <div className="settings-container">
+          {!isSettingsDone ? (
+            <LearningSettings onComplete={handleSettingsComplete} />
+          ) : (
+            <p>학습 설정이 완료되었습니다.</p>
+          )}
+        </div>
       </div>
       <div className="search-form">
         <h2>일정 검색</h2>
@@ -290,6 +312,12 @@ function Main() {
           </div>
         </div>
       )}
+      <div class="record_btn">
+        <Record />
+      </div>
+      <div>
+        <Gpt />
+      </div>
     </div>
   );
 }

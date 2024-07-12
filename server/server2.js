@@ -25,10 +25,10 @@ const PORT = 5000;
 
 // 서비스 계정 키 파일 경로 설정
 const speechClient = new SpeechClient({
-    keyFilename: 'C:\\Users\\user\\Desktop\\apikey/stt-test-428805-44d33bb38495.json' // JSON 키 파일의 실제 경로
+    keyFilename: process.env.SPEECH_KEY_FILENAME // JSON 키 파일의 실제 경로
 });
 const ttsClient = new TextToSpeechClient({
-    keyFilename: 'C:\\Users\\user\\Desktop\\apikey/tts-test-428914-5c7186d24d82.json' // JSON 키 파일의 실제 경로
+    keyFilename: process.env.TTS_KEY_FILENAME // JSON 키 파일의 실제 경로
 });
 
 // CORS 설정

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-
+import './Login.css';
 
 const Login = ({ login }) => {
   const [userid, setUserid] = useState('');
@@ -32,10 +32,10 @@ const Login = ({ login }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
-        <h2>로그인</h2>
-        <div style={{ marginBottom: '10px' }}>
+    <div className="login-container">
+      <h1>로그인</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
           <label htmlFor="userid">아이디:</label>
           <input
             type="text"
@@ -43,10 +43,9 @@ const Login = ({ login }) => {
             value={userid}
             onChange={(e) => setUserid(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div className="form-group">
           <label htmlFor="password">비밀번호:</label>
           <input
             type="password"
@@ -54,14 +53,15 @@ const Login = ({ login }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           />
         </div>
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}>
-          로그인
-        </button>
+        <button className='lg-btn'type="submit">로그인</button>
       </form>
-      <a href='/Signup'>회원가입</a>
+      <div className="additional-links">
+        <a href="#">아이디 찾기</a> |
+        <a href="#">비밀번호 찾기</a> |
+        <Link to="/Signup">회원가입</Link>
+      </div>
     </div>
   );
 };
