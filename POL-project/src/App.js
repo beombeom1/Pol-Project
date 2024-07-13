@@ -45,13 +45,14 @@ function App() {
       {sidebarVisible && location.pathname !== '/' && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
         <nav>
-          <img src={logo} alt="로고" className="logo" />
+
+          <Link to="/" onClick={() => setSidebarVisible(true)}>
+            <img src={logo} alt="로고" className="logo" />
+          </Link>
+
+
           <ul>
-            <li>
-              <Link to="/" onClick={() => setSidebarVisible(true)}>
-                <img src={homeIcon} alt="메인 화면" className="menu-icon" />메인 화면
-              </Link>
-            </li>
+
             <li>
               <Link to="/learn" onClick={() => setSidebarVisible(false)}>
                 <img src={learnIcon} alt="배우기" className="menu-icon" />배우기
