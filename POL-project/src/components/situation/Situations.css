@@ -1,163 +1,208 @@
-.head-screen {
+/* Situations.css */
+
+.message {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 20px;
-  order: -1;
+  margin-bottom: 10px;
 }
 
+.message.you {
+  justify-content: flex-end;
+}
+
+.message.gpt {
+  justify-content: flex-start;
+}
+
+.message-content {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.message.you .message-content {
+  background-color: #DCF8C6;
+  text-align: right;
+}
+
+.message.gpt .message-content {
+  background-color: #F1F0F0;
+  text-align: left;
+}
+
+.head-screen {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 20px;
+order: -1;
+}
 
 .head-screen p {
-  margin-top: 3%;
-  font-size: 35px;
+margin-top: 3%;
+font-size: 35px;
 }
 
 .speak-container {
-  display: flex;
+display: flex;
 }
 
 .navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 800px;
-  margin-top: 170px;
-  position: relative;
-  /* 절대 위치 설정을 위해 상대 위치 설정 */
+display: flex;
+justify-content: space-between;
+width: 100%;
+max-width: 800px;
+margin-top: 170px;
+position: relative;
+/* 절대 위치 설정을 위해 상대 위치 설정 */
 }
 
 .navigation-buttons button {
-  position: absolute;
-  top: 540px;
-  right: 860px;
-  font-family: "Gamja Flower", sans-serif;
-  font-weight: bold;
-  border: 3px solid black;
-  font-size: 22px;
-  padding: 10px 30px;
-  border-radius: 25px;
-  background-color: #fff6dc;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 150px;
-  height: 70px;
+position: absolute;
+top: 540px;
+right: 860px;
+font-family: "Gamja Flower", sans-serif;
+font-weight: bold;
+border: 3px solid black;
+font-size: 22px;
+padding: 10px 30px;
+border-radius: 25px;
+background-color: #fff6dc;
+cursor: pointer;
+transition: background-color 0.3s;
+width: 150px;
+height: 70px;
 }
 
 .navigation-buttons button:hover {
-  background-color: #f0f0f0;
+background-color: #f0f0f0;
 }
 
 .navigation-buttons .skip-button {
-  margin-right: 100px;
-  /* Increase this value to add more space */
+margin-right: 100px;
+/* Increase this value to add more space */
 }
 
 .image-container {
-  display: flex;
-  justify-content: flex-start;
-  /* 왼쪽 정렬 */
-  position: relative;
-  /* 부모 요소를 기준으로 자식 요소 위치 조정 */
+display: flex;
+justify-content: flex-start;
+/* 왼쪽 정렬 */
+position: relative;
+/* 부모 요소를 기준으로 자식 요소 위치 조정 */
 }
 
 .record-image {
-  width: 200px;
-  height: auto;
-  position: absolute;
-  right: 440px;
-  top: 80px;
-  cursor: pointer;
-  transition: filter 0.3s ease;
+width: 200px;
+height: auto;
+position: absolute;
+right: 440px;
+top: 80px;
+cursor: pointer;
+transition: filter 0.3s ease;
 }
 
 .record-image:hover {
-  filter: brightness(0.8);
-  /* 마우스를 올리면 이미지의 밝기를 줄여서 색상을 어둡게 설정 */
+filter: brightness(0.8);
+/* 마우스를 올리면 이미지의 밝기를 줄여서 색상을 어둡게 설정 */
 }
 
 .speaker-image {
-  width: 200px;
-  height: auto;
-  position: absolute;
-  left: -640px;
-  top: 360px;
-  cursor: pointer;
-  transition: filter 0.3s ease;
+width: 200px;
+height: auto;
+position: absolute;
+left: -640px;
+top: 360px;
+cursor: pointer;
+transition: filter 0.3s ease;
 }
 
 .speaker-image:hover {
-  filter: brightness(0.8);
-  /* 마우스를 올리면 이미지의 밝기를 줄여서 색상을 어둡게 설정 */
+filter: brightness(0.8);
+/* 마우스를 올리면 이미지의 밝기를 줄여서 색상을 어둡게 설정 */
 }
 
 .chat-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 1340px !important;
-  /* 너비를 1270px로 설정 */
-  height: 750px !important;
-  /* 높이를 790px로 설정 */
-  border: 2px solid black !important;
-  border-radius: 8px !important;
-  padding: 10px !important;
-  position: absolute !important;
-  /* 절대 위치로 설정 */
-  top: 150px !important;
-  /* 위에서 150px만큼 떨어뜨림 */
-  left: 560px !important;
-  /* 왼쪽에서 170px만큼 떨어뜨림 */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+width: 1340px !important;
+/* 너비를 1270px로 설정 */
+height: 750px !important;
+/* 높이를 790px로 설정 */
+border: 2px solid black !important;
+border-radius: 8px !important;
+padding: 10px !important;
+position: absolute !important;
+/* 절대 위치로 설정 */
+top: 150px !important;
+/* 위에서 150px만큼 떨어뜨림 */
+left: 560px !important;
+/* 왼쪽에서 170px만큼 떨어뜨림 */
 }
 
 .chat-box {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: calc(100% - 40px) !important;
-  overflow-y: auto !important;
-  margin-bottom: 10px !important;
+display: flex;
+flex-direction: column;
+width: 100%;
+height: calc(100% - 40px) !important;
+overflow-y: auto !important;
+margin-bottom: 10px !important;
+border: 2px solid #000; /* 테두리 추가 */
 }
 
 .message {
-  background-color: #ffffff !important;
-  border: 1px solid #ccc !important;
-  border-radius: 8px !important;
-  padding: 5px 10px !important;
-  margin-bottom: 5px !important;
-  align-self: flex-end !important;
-  font-size: 35px !important;
-  max-width: 600px !important;
-  word-wrap: break-word !important;
+display: flex;
+margin-bottom: 10px;
+}
+
+.message.gpt .message-content {
+background-color: #F1F0F0;
+align-self: flex-start;
+text-align: left;
+}
+
+.message.you .message-content {
+background-color: #DCF8C6;
+align-self: flex-end;
+text-align: right;
+}
+
+.message-content {
+max-width: 60%;
+padding: 10px;
+border-radius: 10px;
+font-size: 16px;
 }
 
 .input-area {
-  display: flex !important;
-  width: 100% !important;
+display: flex !important;
+width: 100% !important;
 }
 
 .input-area input {
-  flex: 1 !important;
-  padding: 5px !important;
-  border: 1px solid #ccc !important;
-  border-radius: 8px !important;
-  margin-right: 5px !important;
+flex: 1 !important;
+padding: 5px !important;
+border: 1px solid #ccc !important;
+border-radius: 8px !important;
+margin-right: 5px !important;
 }
 
 .input-area button {
-  padding: 5px 10px !important;
-  border: 1px solid #ccc !important;
-  border-radius: 8px !important;
-  background-color: #fff6dc !important;
-  cursor: pointer !important;
-  transition: background-color 0.3s !important;
+padding: 5px 10px !important;
+border: 1px solid #ccc !important;
+border-radius: 8px !important;
+background-color: #fff6dc !important;
+cursor: pointer !important;
+transition: background-color 0.3s !important;
 }
 
 .input-area button:hover {
-  background-color: #f0f0f0 !important;
+background-color: #f0f0f0 !important;
 }
 
 .sidebar-toggle {
-  position: absolute;
-  /* 절대 위치 설정 */
-  margin-right: 700px;
+position: absolute;
+/* 절대 위치 설정 */
+margin-right: 700px;
 }

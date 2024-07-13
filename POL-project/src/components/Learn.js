@@ -73,7 +73,7 @@ function Learn({ toggleSidebar }) {
                     ☰
                 </button>
                 <div></div>
-                <h2>문제풀기{name}의 </h2>
+                <h2>문제풀기 {name}의 </h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="hidden"
@@ -88,6 +88,12 @@ function Learn({ toggleSidebar }) {
                     {error && <p style={{color: 'red'}}>{error}</p>}
                     {response.question && (
                         <div>
+                            {response.passage && (
+                                <div>
+                                    <p><strong>지문:</strong></p>
+                                    <p>{response.passage}</p>
+                                </div>
+                            )}
                             <p>질문: {response.question}</p>
                             <form>
                                 <div>
