@@ -423,6 +423,43 @@ app.post('/update-settings', (req, res) => {
   });
 });
 
+// 포인트 합계가 0이 아닌 학교의 포인트 합계를 가져오는 엔드포인트
+app.get('/ranking', (req, res) => {
+  const topRankQuery = `
+    SELECT school, SUM(point) as total_point
+    FROM users
+    WHERE school IS NOT NULL AND school != ''
+    GROUP BY school
+    HAVING total_point > 0
+    ORDER BY total_point DESC
+    LIMIT 5;
+  `;
+
+  connection.query(topRankQuery, (err, topRankResults) => {
+    if (err) {
+      console.error('순위 조회 중 오류 발생:', err);
+      res.status(500).send('서버 오류');
+      return;
+    }
+    res.json(topRankResults);
+  });
+});
+
+
+app.post('/update-point', (req, res) => {
+  const { userid, increment } = req.body;
+  const updateQuery = 'UPDATE users SET point = point + ? WHERE userid = ?';
+
+  connection.query(updateQuery, [increment, userid], (err, results) => {
+    if (err) {
+      console.error('포인트 업데이트 중 오류 발생:', err);
+      res.status(500).send('서버 오류');
+      return;
+    }
+    res.send('포인트 업데이트 성공');
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

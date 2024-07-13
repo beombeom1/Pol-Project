@@ -1,0 +1,21 @@
+.school-ranking {
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px; /* 적절한 최대 너비를 설정하세요 */
+}
+
+.ranking-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px; /* 적절한 최대 너비를 설정하세요 */
+}
+
+h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px; /* 적절한 최대 너비를 설정하세요 */
+}

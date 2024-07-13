@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import Main from './components/Main';
 import Learn from './components/Learn';
 import Speak from './components/Speak';
@@ -21,8 +21,9 @@ import learnIcon from './assets/learn.png';
 import speakIcon from './assets/speak.png';
 import gameIcon from './assets/game.png';
 import settingsIcon from './assets/settings.png';
-import Login from './Login.js';
-import Signup from './Signup.js';
+import Login from './Login';
+import Signup from './Signup';
+import SchoolRanking from './components/SchoolRanking'; // 새로 추가된 컴포넌트
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -72,6 +73,11 @@ function App() {
                 <img src={settingsIcon} alt="설정" className="menu-icon" />설정
               </Link>
             </li>
+            <li>
+              <Link to="/school-ranking" onClick={() => setSidebarVisible(false)}>
+                <img src={settingsIcon} alt="학교 순위" className="menu-icon" />학교 순위
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -91,8 +97,9 @@ function App() {
           <Route path="/mart" element={<Mart toggleSidebar={toggleSidebar} />} />
           <Route path="/bank" element={<Bank toggleSidebar={toggleSidebar} />} />
           <Route path="/airport" element={<Airport toggleSidebar={toggleSidebar} />} />
-          <Route path="login" element={<Login toggleSidebar={toggleSidebar} />} />
+          <Route path="/login" element={<Login toggleSidebar={toggleSidebar} />} />
           <Route path="/signup" element={<Signup toggleSidebar={toggleSidebar} />} />
+          <Route path="/school-ranking" element={<SchoolRanking toggleSidebar={toggleSidebar} />} /> {/* 새로운 경로 추가 */}
         </Routes>
       </main>
     </div>

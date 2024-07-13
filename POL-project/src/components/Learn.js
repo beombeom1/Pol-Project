@@ -57,10 +57,21 @@ function Learn({ toggleSidebar }) {
         setSelectedOption(e.target.value);
     };
 
-    const handleAnswerSubmit = () => {
+    const handleAnswerSubmit = async () => {
         if (selectedOption) {
-            setIsCorrect(selectedOption === response.answer);
+            const correct = selectedOption === response.answer;
+            setIsCorrect(correct);
             setSubmitted(true);
+
+            if (correct) {
+                try {
+                    await axios.post('http://localhost:3002/update-point', { userid, increment: 1 });
+                    alert('포인트가 업데이트되었습니다.');
+                } catch (error) {
+                    console.error('포인트 업데이트 중 오류 발생:', error);
+                    setError('포인트 업데이트 중 오류 발생');
+                }
+            }
         } else {
             alert('문항을 선택해주세요.');
         }
@@ -73,7 +84,7 @@ function Learn({ toggleSidebar }) {
                     ☰
                 </button>
                 <div></div>
-                <h2>문제풀기{name}의 </h2>
+                <h2>{name}의 문제풀기</h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="hidden"

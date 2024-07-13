@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 import './Settings.css';
 
-const Settings = () => {
-  const [username, setUsername] = useState('');
+const Settings = ({ toggleSidebar }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [difficulty, setDifficulty] = useState('medium');
@@ -11,12 +12,13 @@ const Settings = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   const userid = localStorage.getItem('userid'); // Assuming userid is stored in localStorage
+  const navigate = useNavigate(); // useNavigate 훅을 사용합니다.
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const res = await axios.get(`http://localhost:3002/userinfo/${userid}`);
-        setUsername(res.data.username);
+        setName(res.data.name);
         setEmail(res.data.email);
         setGoal(res.data.goal);
         setDifficulty(res.data.level);
@@ -28,9 +30,8 @@ const Settings = () => {
     fetchUserInfo();
   }, [userid]);
 
-  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleDifficultyChange = (e) => setDifficulty(e.target.value);
   const handleGoalChange = (e) => setGoal(e.target.value);
   const handleDarkModeChange = () => setDarkMode(!darkMode);
@@ -56,7 +57,7 @@ const Settings = () => {
         <div className="form-group">
           <label>
             <h3>Username</h3>
-            <input type="text" value={username} onChange={handleUsernameChange} readOnly />
+            <input type="text" value={name} onChange={handleNameChange} readOnly />
           </label>
         </div>
         <div className="form-group">
