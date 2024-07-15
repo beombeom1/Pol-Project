@@ -61,7 +61,7 @@ position: relative;
 .navigation-buttons button {
 position: absolute;
 top: 540px;
-right: 860px;
+right: 840px;
 font-family: "Gamja Flower", sans-serif;
 font-weight: bold;
 border: 3px solid black;
@@ -92,30 +92,13 @@ position: relative;
 /* 부모 요소를 기준으로 자식 요소 위치 조정 */
 }
 
-.record-image {
-width: 200px;
-height: auto;
-position: absolute;
-right: 440px;
-top: 80px;
-cursor: pointer;
-transition: filter 0.3s ease;
-}
+
 
 .record-image:hover {
 filter: brightness(0.8);
 /* 마우스를 올리면 이미지의 밝기를 줄여서 색상을 어둡게 설정 */
 }
 
-.speaker-image {
-width: 200px;
-height: auto;
-position: absolute;
-left: -640px;
-top: 360px;
-cursor: pointer;
-transition: filter 0.3s ease;
-}
 
 .speaker-image:hover {
 filter: brightness(0.8);
@@ -126,7 +109,7 @@ filter: brightness(0.8);
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-width: 1340px !important;
+width: 1040px !important;
 /* 너비를 1270px로 설정 */
 height: 750px !important;
 /* 높이를 790px로 설정 */
@@ -206,3 +189,34 @@ position: absolute;
 /* 절대 위치 설정 */
 margin-right: 700px;
 }
+
+.record-image {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  left: -600px !important; /* 새로운 위치 */
+  top: 100px !important;  /* 새로운 위치 */
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.speaker-image {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  left: -580px !important; /* 새로운 위치 */
+  top: 320px !important; /* 새로운 위치 */
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.speaker-image2 {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  left: -580px !important; /* 새로운 위치 */
+  top: 520px !important;  /* 새로운 위치 */
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
