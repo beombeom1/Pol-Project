@@ -84,7 +84,13 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3002/signup', { userid, password, name, school });
+      const response = await axios.post('http://localhost:3002/signup', {
+        userid,
+        password,
+        name,
+        school,
+        gubun  // gubun 값을 함께 전송
+      });
       console.log(response.data);
       alert('회원가입 성공');
       navigate('/');

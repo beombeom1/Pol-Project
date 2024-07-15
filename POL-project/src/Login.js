@@ -16,13 +16,19 @@ const Login = ({ login }) => {
       const { goal, level } = response.data;
       console.log('Goal:', goal, 'Level:', level);
 
+      // 이전 로그인 데이터 초기화
+      localStorage.removeItem('words');
       localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
+
       if (goal == null || level == null) {
         alert('학습 설정이 필요합니다.');
         navigate('/StudySetup');
       } else {
+        // 로그인 성공 후 단어를 가져와서 저장
+        const wordsResponse = await axios.get(`http://localhost:3003/recommend-words/${userid}`);
+        localStorage.setItem('words', JSON.stringify(wordsResponse.data.words));
         alert('로그인 성공');
-        navigate('/Main');
+        navigate('/');
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

@@ -46,9 +46,9 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
 });
 
 const connection = mysql.createConnection({
-  host: 'localhost',
+  host: '172.30.96.159',
   user: 'root',
-  password: 'dmlqja1298',
+  password: 'wjddn133',
   database: 'poldb'
 });
 
@@ -79,10 +79,29 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  const { userid, password, name, school } = req.body;
+  const { userid, password, name, school, gubun } = req.body;
 
-  const query = 'INSERT INTO users (userid, password, name, school, point) VALUES (?, ?, ?, ?, 0)';
-  connection.query(query, [userid, password, name, school], (err, results) => {
+  // gubun 값을 schoollevel에 저장
+  let schoollevel;
+  switch (gubun) {
+    case 'elem_list':
+      schoollevel = '초등학교';
+      break;
+    case 'middle_list':
+      schoollevel = '중학교';
+      break;
+    case 'high_list':
+      schoollevel = '고등학교';
+      break;
+    case 'univ_list':
+      schoollevel = '대학교';
+      break;
+    default:
+      schoollevel = '';
+  }
+
+  const query = 'INSERT INTO users (userid, password, name, school, point, schoollevel) VALUES (?, ?, ?, ?, 0, ?)';
+  connection.query(query, [userid, password, name, school, schoollevel], (err, results) => {
     if (err) {
       res.status(500).send('Server error');
       return;
@@ -90,7 +109,6 @@ app.post('/signup', (req, res) => {
     res.send('Signup successful');
   });
 });
-
 
 app.post('/setup', (req, res) => {
   const { userid, goal, level } = req.body;

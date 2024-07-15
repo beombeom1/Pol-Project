@@ -31,9 +31,9 @@
 
 .questions-line {
   display: flex;
-  flex-direction: column; /* 수정된 부분 */
+  flex-direction: column;
   justify-content: center;
-  align-items: center; /* 추가된 부분 */
+  align-items: center;
   width: 100%;
   margin-bottom: 20px;
 }
@@ -63,11 +63,13 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  font-size: 22px; /* 글씨 크기 키움 */
 }
 
 label {
-  font-size: 16px;
+  font-size: 27px !important; /* 글씨 크기 키움 */
   margin-left: 10px;
+  cursor: pointer; /* 라벨 클릭 시 포인터 변경 */
 }
 
 input[type="radio"] {
@@ -106,7 +108,7 @@ input[type="radio"] {
   font-family: "Gamja Flower", sans-serif;
 }
 
-.start-text{
+.start-text {
   width: 100%;
   font-size: 30px;
 }
