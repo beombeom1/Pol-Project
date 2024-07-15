@@ -16,18 +16,21 @@ const Login = ({ login }) => {
       const { goal, level } = response.data;
       console.log('Goal:', goal, 'Level:', level);
 
+      localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
       if (goal == null || level == null) {
-        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('학습 설정이 필요합니다.');
         navigate('/StudySetup');
       } else {
-        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('로그인 성공');
         navigate('/Main');
       }
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert('아이디 또는 비밀번호가 잘못되었습니다.');
+      } else {
+        alert('로그인 실패');
+      }
       console.error(error);
-      alert('로그인 실패');
     }
   };
 
@@ -36,26 +39,30 @@ const Login = ({ login }) => {
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="userid">아이디:</label>
+          <label htmlFor="userid"></label>
           <input
+          placeholder='ID'
             type="text"
-            id="userid"
+            id="userids"
             value={userid}
             onChange={(e) => setUserid(e.target.value)}
             required
+            aria-label="아이디 입력"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">비밀번호:</label>
+          <label htmlFor="password"></label>
           <input
+          placeholder='PASSWORD'
             type="password"
-            id="password"
+            id="passwords"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            aria-label="비밀번호 입력"
           />
         </div>
-        <button className='lg-btn'type="submit">로그인</button>
+        <button className='lg-btn' type="submit">로그인</button>
       </form>
       <div className="additional-links">
         <a href="#">아이디 찾기</a> |

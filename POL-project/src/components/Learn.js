@@ -11,6 +11,9 @@ function Learn({ toggleSidebar }) {
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [level, setLevel] = useState('');
+    const [prompt, setPrompt] = useState('');
+
+    const [showQuestion, setShowQuestion] = useState(false); //
 
     const userid = localStorage.getItem('userid');
 

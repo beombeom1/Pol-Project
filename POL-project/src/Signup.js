@@ -103,7 +103,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
         <h2>회원가입</h2>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="userid">아이디:</label>
+          <label htmlFor="userid">아이디</label>
           <input
             type="text"
             id="userid"
@@ -114,7 +114,7 @@ const Signup = () => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="password">비밀번호:</label>
+          <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
@@ -125,7 +125,7 @@ const Signup = () => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="name">이름:</label>
+          <label htmlFor="name">이름</label>
           <input
             type="text"
             id="name"
@@ -136,7 +136,7 @@ const Signup = () => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="gubun">구분:</label>
+          <label htmlFor="gubun">구분</label>
           <select
             id="gubun"
             value={gubun}
@@ -188,7 +188,7 @@ const Signup = () => {
           </div>
         )}
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="region">지역:</label>
+          <label htmlFor="region">지역</label>
           <select
             id="region"
             value={region}
@@ -204,7 +204,7 @@ const Signup = () => {
           </select>
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="schoolSearch">학교 검색:</label>
+          <label htmlFor="schoolSearch">학교 검색</label>
           <input
             type="text"
             id="schoolSearch"
@@ -215,7 +215,7 @@ const Signup = () => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="school">학교:</label>
+          <label htmlFor="school">학교</label>
           <select
             id="school"
             value={school}
