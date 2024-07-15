@@ -223,10 +223,29 @@ app.post('/login', (req, res) => {
 
 // 회원가입 API
 app.post('/signup', (req, res) => {
-  const { userid, password, name, school } = req.body;
+  const { userid, password, name, school, gubun } = req.body;
 
-  const query = 'INSERT INTO users (userid, password, name, school, point) VALUES (?, ?, ?, ?, 0)';
-  connection.query(query, [userid, password, name, school], (err, results) => {
+  // gubun 값을 schoollevel에 저장
+  let schoollevel;
+  switch (gubun) {
+    case 'elem_list':
+      schoollevel = '초등학교';
+      break;
+    case 'middle_list':
+      schoollevel = '중학교';
+      break;
+    case 'high_list':
+      schoollevel = '고등학교';
+      break;
+    case 'univ_list':
+      schoollevel = '대학교';
+      break;
+    default:
+      schoollevel = '';
+  }
+
+  const query = 'INSERT INTO users (userid, password, name, school, point, schoollevel) VALUES (?, ?, ?, ?, 0, ?)';
+  connection.query(query, [userid, password, name, school, schoollevel], (err, results) => {
     if (err) {
       res.status(500).send('Server error');
       return;

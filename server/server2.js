@@ -17,7 +17,6 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
 dotenv.config();
 
-
 const app = express();
 app.use(bodyParser.json());
 const upload = multer({ dest: 'uploads/' });
@@ -77,7 +76,7 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
             config: {
                 encoding: 'WEBM_OPUS',
                 sampleRateHertz: sampleRate,
-                languageCode: 'ko-KR',
+                languageCode: 'en-US',
             },
         };
 
@@ -98,6 +97,7 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
         console.log('ffprobe path:', ffprobePath);
     }
 });
+
 // GPT API 로 TEXT 에 대한 응답 대화 생성해서 텍스트 반환
 app.post('/api/openai', async (req, res) => {
     const { prompt } = req.body;
@@ -107,7 +107,7 @@ app.post('/api/openai', async (req, res) => {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo-0125",
             messages: [
-                { role: "system", content: "You are a helpful assistant." },
+                { role: "system", content: "You are an English teacher helping a student with their English conversation practice. Continue the conversation naturally based on the given situation." },
                 { role: "user", content: prompt }
             ]
         }, {
@@ -125,13 +125,12 @@ app.post('/api/openai', async (req, res) => {
     }
 });
 
-
 app.post('/synthesize', async (req, res) => {
     const { text } = req.body;
 
     const request = {
         input: { text: text },
-        voice: { languageCode: 'ko-KR', ssmlGender: 'NEUTRAL' },
+        voice: { languageCode: 'en-US', ssmlGender: 'female' },
         audioConfig: { audioEncoding: 'MP3' },
     };
 
@@ -145,8 +144,66 @@ app.post('/synthesize', async (req, res) => {
     }
 });
 
+// 상황별 초기 대화를 시작하는 엔드포인트
+app.post('/startConversation', async (req, res) => {
+    const { situation } = req.body;
+    let prompt;
+
+    switch (situation) {
+        case 'airport':
+            prompt = '공항 상황';
+            break;
+        case 'restaurant':
+            prompt = '식당 상황';
+            break;
+        case 'school':
+            prompt = '학교 상황';
+            break;
+        case 'travel':
+            prompt = '여행 상황';
+            break;
+        case 'hotel':
+            prompt = '호텔 상황';
+            break;
+        case 'hospital':
+            prompt = '병원 상황';
+            break;
+        case 'bank':
+            prompt = '은행 상황';
+            break;
+        case 'mart':
+            prompt = '마트 상황';
+            break;
+        case 'movie':
+            prompt = '영화관 상황';
+            break;
+        default:
+            prompt = '일상 생활 상황';
+    }
+
+    try {
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: "gpt-3.5-turbo-0125",
+            messages: [
+                { role: "system", content: "You are an English teacher helping a student with their English conversation practice. Continue the conversation naturally based on the given situation." },
+                { role: "user", content: prompt }
+            ]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // 응답 데이터를 파싱하기 전에 터미널에 출력 (깊은 복사를 위해 JSON.stringify 사용)
+        console.log('API 응답 데이터:', JSON.stringify(response.data, null, 2));
+        const initialMessage = response.data.choices[0].message.content;
+        res.json({ message: initialMessage });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-
