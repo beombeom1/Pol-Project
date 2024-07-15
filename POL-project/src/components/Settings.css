@@ -1,0 +1,96 @@
+/* 전체 컨테이너 가운데 정렬 및 글자 크기 통일 */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 상단에 정렬 */
+  min-height: 100vh;
+  font-size: 20px; /* 전체 글자 크기 */
+  padding: 20px; /* 페이지에 여백 추가 */
+  margin-top: 100px; /* 페이지를 위로 올림 */
+}
+
+/* 프로필 정보 가운데 정렬 및 스타일 */
+.settings-profile {
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: #f9f9f9; /* 약간의 배경색 추가 */
+  border-radius: 10px; /* 모서리를 둥글게 */
+  width: 80%;
+  max-width: 600px;
+}
+
+.settings-profile h2 {
+  font-size: 28px; /* 큰 글자 크기 */
+  margin-bottom: 20px; /* 여백 추가 */
+}
+
+.settings-profile-info {
+  text-align: left;
+  font-size: 18px;
+  line-height: 1.5; /* 줄 간격 조절 */
+}
+
+.settings-user-info {
+  font-weight: bold; /* 글자 두껍게 */
+}
+
+/* 학습 설정 폼 가운데 정렬 및 스타일 */
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9; /* 약간의 배경색 추가 */
+  padding: 20px;
+  border-radius: 10px; /* 모서리를 둥글게 */
+  width: 80%;
+  max-width: 600px;
+}
+
+.settings-form h2 {
+  font-size: 28px; /* 큰 글자 크기 */
+  margin-bottom: 20px; /* 여백 추가 */
+}
+
+.settings-form div {
+  margin-bottom: 1rem;
+  width: 100%; /* 입력 요소가 전체 너비를 차지하도록 */
+  text-align: left; /* 왼쪽 정렬 */
+}
+
+.settings-form label, .settings-form select, .settings-form button {
+  font-family: "Gamja Flower", sans-serif;
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 18px; /* 라벨 글자 크기 */
+}
+
+.settings-form select {
+  padding: 0.5em;
+  margin-top: 0.5rem;
+  font-size: 18px; /* 입력 요소 글자 크기 */
+  width: 100%; /* 입력 요소가 전체 너비를 차지하도록 */
+  box-sizing: border-box; /* 패딩과 테두리가 전체 너비에 포함되도록 */
+}
+
+.settings-form button {
+  background-color: #79b8ff;
+  border: 0;
+  color: #ffffff;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-size: 18px; /* 버튼 글자 크기 */
+  margin-top: 20px; /* 여백 추가 */
+  width: 100%; /* 버튼이 전체 너비를 차지하도록 */
+  box-sizing: border-box; /* 패딩과 테두리가 전체 너비에 포함되도록 */
+}
+
+.settings-form button:hover {
+  background-color: #6ea7e7;
+  translate: 0 0.1em;
+}
