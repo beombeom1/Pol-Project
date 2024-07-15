@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../assets2/css/main.css'; // CSS 파일 import
+import './assets2/css/main2.scss'; // CSS 파일 import
 import Char from '../rchar.png';
 import pic01 from '../images2/pic01.jpg';
 import pic02 from '../images2/pic02.jpg';
