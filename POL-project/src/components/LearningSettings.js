@@ -68,12 +68,13 @@ function LearningSettings() {
       {loading ? (
         <p>로딩 중...</p>
       ) : (
-        <div className='word'>
+        <div className='words'>
           {Object.keys(wordsData).length > 0 ? (
             renderWords()
           ) : (
             <p>단어 데이터를 불러오는 중 오류가 발생했습니다.</p>
           )}
+          <p>암기한 단어로 게임을 진행해보세요!</p>
         </div>
       )}
     </div>

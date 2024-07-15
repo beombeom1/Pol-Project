@@ -1,35 +1,39 @@
 .learning-settings-container {
-  margin-top: 45%;
+  margin-top: 3%;
   background-color: #fff6dc;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid black;
   margin-left: 15%;
   width: 500px;
-  height: 460px;
+  height: 300px;
 }
 
 .learning-settings-container h2 {
   color: black;
   text-align: center;
-  margin-top: 10%;
+  margin-top: 5%;
   font-size: 30px;
-  margin-bottom: 80px;
+  margin-left: 13%;
+  width: 70%;
 }
 
 .words {
-  text-align: left;
-  margin-left: 12%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.words div {
+  width: 45%; /* 두 줄로 나눠서 각 아이템의 너비를 45%로 설정 */
+  margin: 10px; /* 원하는 간격으로 조정 */
+  box-sizing: border-box;
 }
 
 .words span {
   font-weight: bold;
-}
-
-.words div {
-  margin-bottom: 10px;
-  /* 원하는 간격으로 조정 */
 }
 
 .learning-words {

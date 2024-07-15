@@ -6,6 +6,7 @@
   import 'react-big-calendar/lib/css/react-big-calendar.css';
   import POLImg from './images/POL.png';
   import './Main.css';
+  import LearningSettings from './LearningSettings';
 
   const localizer = momentLocalizer(moment);
 
@@ -232,13 +233,8 @@
           </div>
         </div>
         <div className="under-container">
-          <div className="school-ranking">
-          <h2>오늘의 숙어 추천</h2>
-            <p>Bite the bullet : 어려운 결정을 내리거나 고통스러운 일을 감내하다.</p>
-            <p>Break the ice : 어색함을 없애거나 사람들과 친밀감을 돈독하게 만들다.</p>
-            <p>Burn the midnight oil : 밤 늦게까지 일하다.</p>
-            <p>Cost an arm and a leg : 매우 비싸다.</p>
-          </div>
+          
+          <LearningSettings />
           <div className="word-of-the-day">
           <h2>학교 랭킹</h2>
             <p>백석대학교 ········ 100p</p>
