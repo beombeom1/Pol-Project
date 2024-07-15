@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Link,useNavigate } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
-  import LearningSettings from './LearningSettings';
 
 const localizer = momentLocalizer(moment);
 
