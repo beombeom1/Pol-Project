@@ -40,7 +40,9 @@
 	blockquote, q {
 		quotes: none;
 	}
-
+	.big{
+		color: #ffffff;
+	}
 	blockquote:before, blockquote:after, q:before, q:after {
 		content: '';
 		content: none;
@@ -285,7 +287,7 @@
 	}
 
 		a:hover {
-			color: #EF6480 !important;
+			color: #000000 !important;
 		}
 
 	strong, b {
@@ -437,7 +439,7 @@
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			color: #EF6480 !important;
+			color: #9b9b9b !important;
 			box-shadow: inset 0 0 0 2px #EF6480;
 		}
 
@@ -454,7 +456,18 @@
 		input[type="button"].icon:before,
 		button.icon:before,
 		.button.icon:before {
-			color: #999999;
+			color: #ffffff;
+		}
+		
+		.button-big{
+			border: 1px solid rgb(255, 255, 255);
+			color: #ffffff;
+			padding: 15px 25px;
+			border-radius: 5px;
+		}
+		.button-big:hover{
+			color: #ffffff;
+			background-color: #ffffff;
 		}
 
 /* Form */
@@ -785,13 +798,16 @@
 				width: 100%;
 			}
 
-		.image.main {
+		.image.main2 {
 			display: block;
 			margin: 0 0 3em 0;
 			width: 100%;
 		}
+		.main2 p{
+			color: #000000;
+		}
 
-			.image.main img {
+			.image.main2 img {
 				width: 100%;
 			}
 
@@ -1105,7 +1121,7 @@
 			}
 
 			.item header blockquote {
-				border-left-color: #ffffff;
+				border-left-color: #000000;
 			}
 
 			.item header code {
@@ -1114,7 +1130,7 @@
 			}
 
 			.item header hr {
-				border-bottom-color: #ffffff;
+				border-bottom-color: #000000;
 			}
 
 			.item header a {
@@ -1248,7 +1264,7 @@
 		padding: 0
 	}
 
-		#wrapper > .main {
+		#wrapper > .main2 {
 			margin-bottom: 4em;
 		}
 
@@ -1258,7 +1274,7 @@
 				padding: 2em 0 2em 0;
 			}
 
-				#wrapper > .main {
+				#wrapper > .main2 {
 					margin-bottom: 2em;
 				}
 
@@ -1271,7 +1287,7 @@
 				padding: 1em 0 0.1em 0;
 			}
 
-				#wrapper > .main {
+				#wrapper > .main2 {
 					margin-bottom: 1em;
 				}
 
@@ -1323,7 +1339,7 @@
 	  }
 
 		#header input, #header select, #header textarea {
-			color: #ffffff;
+			color: #000000;
 		}
 
 		#header a {
@@ -1335,24 +1351,24 @@
 			}
 
 		#header strong, #header b {
-			color: #ffffff;
+			color: #000000;
 		}
 
 		#header h1, #header h2, #header h3, #header h4, #header h5, #header h6 {
-			color: #ffffff;
+			color: #000000;
 		}
 
 		#header blockquote {
-			border-left-color: #ffffff;
+			border-left-color: #000000;
 		}
 
 		#header code {
 			background: rgba(255, 255, 255, 0.075);
-			border-color: #ffffff;
+			border-color: #000000;
 		}
 
 		#header hr {
-			border-bottom-color: #ffffff;
+			border-bottom-color: #000000;
 		}
 
 		#header:before {
@@ -1366,7 +1382,7 @@
 			background-color: rgba(0, 0, 0, 0.25);
 			background-repeat: no-repeat;
 			background-size: cover;
-			background-image: url("../../../images2/pic01.jpg");
+			background-image: url("../../../backchar.jpg");
 		}
 
 		#header h1 {
@@ -1398,7 +1414,7 @@
 			#header.alt h1 {
 				font-size: 4em;
 				padding: 0 0.5em 0.25em 0.5em;
-				border-bottom: solid 2px #ffffff;
+				border-bottom: solid 2px #000000;
 				font-weight: 200;
 				font-family: "Pacifico", cursive;
 				text-transform: none;
@@ -1459,21 +1475,21 @@
 
 		}
 
-/* Main */
+/* main2 */
 
-	#main {
+	#main2 {
 		padding: 4em 4em 2em 4em;
 		background-color: #ffffff;
 		border-radius: 4px;
 	}
 
-		#main > header:first-child {
+		#main2 > header:first-child {
 			text-align: center;
 		}
 
 		@media screen and (max-width: 736px) {
 
-			#main {
+			#main2 {
 				padding: 2em 2em 0.1em 2em;
 			}
 
@@ -1481,7 +1497,7 @@
 
 		@media screen and (max-width: 480px) {
 
-			#main {
+			#main2 {
 				padding: 2em 1em 0.1em 1em;
 			}
 
@@ -1518,6 +1534,9 @@
 
 /* CTA */
 
+	#cta h2, p, a{
+		color: #ffffff;
+	}
 	#cta {
 		padding: 2em 0 0.1em 0;
 		text-align: center;
@@ -1551,7 +1570,7 @@
 	}
 
 		#footer a {
-			color: inherit;
+			color: #ffffff;
 		}
 
 		#footer:before {
@@ -1559,23 +1578,25 @@
 			display: inline-block;
 			width: 6em;
 			height: 2px;
-			background-color: #666666;
+			background-color: #ffffff;
 			margin-bottom: 4em;
 		}
 
 		#footer .copyright {
 			font-size: 0.8em;
+			
 		}
 .copyright {
 	font-size: 0.9em;
 	margin: 2em 0 2em 0;
 	padding: 0;
 	text-align: center;
+	color: #ffffff;
 }
 .copyright a{
 	text-decoration: none;
 	font-weight: 700;
-	color:black;
+	color:rgb(255, 255, 255);
 	border-bottom: none;
 }
 		@media screen and (max-width: 736px) {

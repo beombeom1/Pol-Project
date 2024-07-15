@@ -25,12 +25,13 @@ const Intro = () => {
          <div className="inner">
           <h1 className={isMounted ? 'fade-in' : ''}>POL</h1>
           <h5 className={isMounted ? 'fade-in' : ''}>
-            POL 은 Person Of Learn '배우는 사람'의 줄임말입니다
+            POL 은 Personalized Online Learning System<br></br>
+            개인화된 온라인 학습'시스템을 제공하자는 목표로 제작 하였습니다.
           </h5>
         </div>
       </header>
 
-      <section id="intro" className="main">
+      <section id="intro" className="main2">
         <img src={Char} alt='pic'></img>
         <h2>POL의 사용법</h2>
         <p>
@@ -47,7 +48,7 @@ const Intro = () => {
         </ul>
       </section>
 
-      <section className="main items">
+      <section className="main2 items">
   {items.map((item, index) => (
     <article className="item" key={index}>
       <header>
@@ -73,7 +74,7 @@ const Intro = () => {
   ))}
 </section>
 
-      <section id="cta" className="main special">
+      <section id="cta" className="special">
         <h2>Etiam veroeros lorem</h2>
         <p>
           Phasellus ac augue ac magna auctor tempus proin
@@ -82,7 +83,7 @@ const Intro = () => {
         </p>
         <ul className="actions">
           <li>
-            <a href="#" className="button big">
+            <a href="/login" className="button-big">
               Get Started
             </a>
           </li>
