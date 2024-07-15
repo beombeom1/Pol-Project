@@ -16,7 +16,7 @@ import Restauraunt from './components/situation/Restauraunt';
 import Hotel from './components/situation/Hotel';
 import './App.css';
 import logo from './char.png';
-import homeIcon from './assets/home.png';
+// import homeIcon from './assets/home.png';
 import learnIcon from './assets/learn.png';
 import speakIcon from './assets/speak.png';
 import gameIcon from './assets/game.png';
@@ -24,6 +24,7 @@ import settingsIcon from './assets/settings.png';
 import Login from './Login.js';
 import Signup from './Signup.js';
 import StudySetup from './StudySetup.js';
+import Intro from './components/Intro.js';
 import LearningSettings from './components/LearningSettings.js';
 import SchoolRanking from './components/SchoolRanking';
 
