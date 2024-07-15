@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
-const StudySetup = () => {
+
+const Settings = ({ toggleSidebar }) => {
   const [goal, setGoal] = useState('');
   const [level, setLevel] = useState('');
   const [userInfo, setUserInfo] = useState({});
@@ -40,11 +41,12 @@ const StudySetup = () => {
   };
 
   return (
-    <div>
-      <div className='user-profile'>
+    <div className="settings-container">
+      {toggleSidebar && <button className="sidebar-toggle" onClick={toggleSidebar}>☰</button>}
+      <div className='settings-profile'>
         <h2>{userid}님 </h2>
-        <div className="profile-info">
-          <p className='user-info'>
+        <div className="settings-profile-info">
+          <p className='settings-user-info'>
             학교 : {userInfo.school}<br />
             순위 : {userInfo.rank}위<br />
             등급 : {userInfo.tier}<br />
@@ -53,7 +55,7 @@ const StudySetup = () => {
           </p>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form className="settings-form" onSubmit={handleSubmit}>
         <h2>학습 설정</h2>
         <div>
           <label htmlFor="goal">학습 목표:</label>
@@ -90,4 +92,4 @@ const StudySetup = () => {
   );
 };
 
-export default StudySetup;
+export default Settings;
