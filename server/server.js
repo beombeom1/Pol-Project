@@ -46,9 +46,9 @@ app.post('/transcribe', upload.single('file'), async (req, res) => {
 });
 
 const connection = mysql.createConnection({
-  host: 'localhost',
+  host: '172.30.96.159',
   user: 'root',
-  password: 'dmlqja1298',
+  password: 'wjddn133',
   database: 'poldb'
 });
 

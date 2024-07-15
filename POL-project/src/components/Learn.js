@@ -1,41 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './Learn.css'; // CSS 파일을 가져옵니다.
 
 function Learn({ toggleSidebar }) {
+    const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
-    const [name, setName] = useState('');
-    const [goal, setGoal] = useState('');
-    const [level, setLevel] = useState('');
-
-    const userid = localStorage.getItem('userid');
-
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const res = await axios.get(`http://localhost:3002/userinfo/${userid}`);
-                console.log('User Info:', res.data);  // 응답 데이터를 로그에 출력
-                setName(res.data.name);
-                setGoal(res.data.goal);
-                setLevel(res.data.level);
-            } catch (error) {
-                console.error('사용자 정보를 가져오는 중 오류 발생:', error);
-            }
-        };
-    
-        if (userid) {
-            fetchUserInfo(); // 사용자 정보를 가져오는 함수 호출
-        }
-    }, [userid]);
+    const [showQuestion, setShowQuestion] = useState(false); // 추가된 상태
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const prompt = `${goal} ${level}`;
 
         try {
             const res = await axios.post('http://localhost:3001/api/openai', { prompt });
@@ -69,93 +46,94 @@ function Learn({ toggleSidebar }) {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
+        <div className="questions">
+            <header className="question-header">
                 <button className="sidebar-toggle" onClick={toggleSidebar}>
                     ☰
                 </button>
-                <div></div>
-                <h2>문제풀기 {name}의 </h2>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="hidden"
-                        value={`${goal} ${level}`}
-                        readOnly
-                    />
-                    <button type="submit">다음문제</button>
-                </form>
-                
-                <div>
-                    <h2>응답:</h2>
-                    {error && <p style={{color: 'red'}}>{error}</p>}
-                    {response.question && (
-                        <div>
-                            {response.passage && (
-                                <div>
-                                    <p><strong>지문:</strong></p>
-                                    <p>{response.passage}</p>
-                                </div>
-                            )}
-                            <p>질문: {response.question}</p>
-                            <form>
-                                <div>
-                                    <input 
-                                        type="radio" 
-                                        id="optionA" 
-                                        name="options" 
-                                        value="A"
-                                        checked={selectedOption === "A"}
-                                        onChange={handleOptionChange}
-                                    />
-                                    <label htmlFor="optionA">A: {response.options && response.options.A}</label>
-                                </div>
-                                {submitted && <div>{response.feedback && response.feedback.A}</div>}
-                                <div>
-                                    <input 
-                                        type="radio" 
-                                        id="optionB" 
-                                        name="options" 
-                                        value="B"
-                                        checked={selectedOption === "B"}
-                                        onChange={handleOptionChange}
-                                    />
-                                    <label htmlFor="optionB">B: {response.options && response.options.B}</label>
-                                </div>
-                                {submitted && <div>{response.feedback && response.feedback.B}</div>}
-                                <div>
-                                    <input 
-                                        type="radio" 
-                                        id="optionC" 
-                                        name="options" 
-                                        value="C"
-                                        checked={selectedOption === "C"}
-                                        onChange={handleOptionChange}
-                                    />
-                                    <label htmlFor="optionC">C: {response.options && response.options.C}</label>
-                                </div>
-                                {submitted && <div>{response.feedback && response.feedback.C}</div>}
-                                <div>
-                                    <input 
-                                        type="radio" 
-                                        id="optionD" 
-                                        name="options" 
-                                        value="D"
-                                        checked={selectedOption === "D"}
-                                        onChange={handleOptionChange}
-                                    />
-                                    <label htmlFor="optionD">D: {response.options && response.options.D}</label>
-                                </div>
-                                {submitted && <div>{response.feedback && response.feedback.D}</div>}
-                            </form>
-                            <button onClick={handleAnswerSubmit}>제출하기</button>
-                            {submitted && (
-                                <p>
-                                    {isCorrect ? '정답입니다!' : '오답입니다.'}
-                                </p>
-                            )}
-                        </div>
-                    )}
-                </div>
+                {!showQuestion && (
+                    <form onSubmit={handleSubmit} className="questions-line">
+                        <p className='start-text'> 영어 문제 풀기를 시작해보세요</p>
+                        <p className='start-text'> 언제든, 어디서든! 다양한 영어 문제를 풀며 읽기와 듣기 능력을 평가해보세요.</p>
+                        <textarea
+                            style={{ display: 'none' }}
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                            placeholder="질문을 입력하세요"
+                        />
+                        <button type="submit" className="next-question-button">
+                            START !
+                        </button>
+                    </form>
+                )}
+
+                {showQuestion && (
+                    <div>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        {response.question && (
+                            <div className="check-questions">
+                                <p className='questions-kind'>질문: {response.question}</p><br></br>
+                                <form>
+                                    <div>
+                                        <input 
+                                            type="radio" 
+                                            id="optionA" 
+                                            name="options" 
+                                            value="A"
+                                            checked={selectedOption === "A"}
+                                            onChange={handleOptionChange}
+                                        />
+                                        <label htmlFor="optionA">A: {response.options && response.options.A}</label>
+                                    </div>
+                                    {submitted && <div>{response.feedback && response.feedback.A}</div>}
+                                    <div>
+                                        <input 
+                                            type="radio" 
+                                            id="optionB" 
+                                            name="options" 
+                                            value="B"
+                                            checked={selectedOption === "B"}
+                                            onChange={handleOptionChange}
+                                        />
+                                        <label htmlFor="optionB">B: {response.options && response.options.B}</label>
+                                    </div>
+                                    {submitted && <div>{response.feedback && response.feedback.B}</div>}
+                                    <div>
+                                        <input 
+                                            type="radio" 
+                                            id="optionC" 
+                                            name="options" 
+                                            value="C"
+                                            checked={selectedOption === "C"}
+                                            onChange={handleOptionChange}
+                                        />
+                                        <label htmlFor="optionC">C: {response.options && response.options.C}</label>
+                                    </div>
+                                    {submitted && <div>{response.feedback && response.feedback.C}</div>}
+                                    <div>
+                                        <input 
+                                            type="radio" 
+                                            id="optionD" 
+                                            name="options" 
+                                            value="D"
+                                            checked={selectedOption === "D"}
+                                            onChange={handleOptionChange}
+                                        />
+                                        <label htmlFor="optionD">D: {response.options && response.options.D}</label>
+                                    </div>
+                                    {submitted && <div>{response.feedback && response.feedback.D}</div>}
+                                </form>
+                               
+                                <button className="submit-button" onClick={handleAnswerSubmit}>제출하기</button>
+                                {submitted && (
+                                    <p className='question-success'>
+                                        {isCorrect ? '정답입니다!' : '오답입니다.'}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
             </header>
         </div>
     );

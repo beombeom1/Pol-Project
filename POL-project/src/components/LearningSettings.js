@@ -4,8 +4,8 @@ import './LearningSettings.css';
 function LearningSettings() {
     return (
         <div className="learning-settings-container">
-            <h2>오늘의 암기 추천 단어!</h2>
-            <div className='word'>
+            <h2 className='learning-words'>오늘의 암기 추천 단어!</h2>
+            <div className='words'>
              <div>
                     <span>Sesquipedalian</span> - 매우 긴 말이나 글을 뜻합니다.
                 </div>

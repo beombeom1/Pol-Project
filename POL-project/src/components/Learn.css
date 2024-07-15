@@ -31,9 +31,9 @@
 
 .questions-line {
   display: flex;
-  flex-direction: column; /* 수정된 부분 */
+  flex-direction: column;
   justify-content: center;
-  align-items: center; /* 추가된 부분 */
+  align-items: center; 
   width: 100%;
   margin-bottom: 20px;
 }
