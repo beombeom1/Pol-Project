@@ -23,6 +23,7 @@ import gameIcon from './assets/game.png';
 import settingsIcon from './assets/settings.png';
 import Login from './Login.js';
 import Signup from './Signup.js';
+import Intro from './components/Intro.js';
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -77,7 +78,8 @@ function App() {
       </div>
       <main className={sidebarVisible ? 'main-with-sidebar' : 'main-full'}>
         <Routes>
-          <Route path="/" element={<Main setSidebarVisible={setSidebarVisible} />} />
+          <Route path='/' element={<Main toggleSidebar={toggleSidebar}/>} />
+          <Route path="/intro" element={<Intro />} />
           <Route path="/learn" element={<Learn toggleSidebar={toggleSidebar} />} />
           <Route path="/speak" element={<Speak toggleSidebar={toggleSidebar} />} />
           <Route path="/memorygame" element={<MemoryGame toggleSidebar={toggleSidebar} />} />

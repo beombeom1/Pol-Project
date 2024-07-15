@@ -310,6 +310,7 @@ function Main({ setSidebarVisible }) {
           </div>
         </div>
       )}
+      
     </div>
   );
 }
