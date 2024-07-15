@@ -44,6 +44,7 @@ function Learn({ toggleSidebar }) {
                 setResponse(res.data);
                 setError(''); // 오류 상태 초기화
                 setSubmitted(false); // 제출 상태 초기화
+                setShowQuestion(true); // 문제를 보여줍니다
             } else {
                 console.error('Unexpected response format:', res.data);
                 setError('Error: Unexpected response format');
