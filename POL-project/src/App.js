@@ -3,7 +3,7 @@ import { Route, Routes, Link, useLocation } from 'react-router-dom';
 import Main from './components/Main';
 import Learn from './components/Learn';
 import Speak from './components/Speak';
-import MemoryGame from './components/MemoryGame';
+import MemoryGame from './components/MemoryGame.js';
 import Settings from './components/Settings';
 import School from './components/situation/School';
 import Airport from './components/situation/Airport';
@@ -23,7 +23,10 @@ import gameIcon from './assets/game.png';
 import settingsIcon from './assets/settings.png';
 import Login from './Login.js';
 import Signup from './Signup.js';
-import Intro from './components/Intro.js';
+import StudySetup from './StudySetup.js';
+import LearningSettings from './components/LearningSettings.js';
+import SchoolRanking from './components/SchoolRanking';
+
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -46,13 +49,14 @@ function App() {
       {sidebarVisible && location.pathname !== '/' && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
       <div className={`sidebar ${sidebarVisible ? 'visible' : ''}`}>
         <nav>
-          <img src={logo} alt="로고" className="logo" />
+
+          <Link to="/" onClick={() => setSidebarVisible(true)}>
+            <img src={logo} alt="로고" className="logo" />
+          </Link>
+
+
           <ul>
-            <li>
-              <Link to="/" onClick={() => setSidebarVisible(true)}>
-                <img src={homeIcon} alt="메인 화면" className="menu-icon" />메인 화면
-              </Link>
-            </li>
+
             <li>
               <Link to="/learn" onClick={() => setSidebarVisible(false)}>
                 <img src={learnIcon} alt="배우기" className="menu-icon" />배우기
@@ -71,6 +75,11 @@ function App() {
             <li>
               <Link to="/settings" onClick={() => setSidebarVisible(false)}>
                 <img src={settingsIcon} alt="설정" className="menu-icon" />설정
+              </Link>
+            </li>
+            <li>
+              <Link to="/school-ranking" onClick={() => setSidebarVisible(false)}>
+                <img src={settingsIcon} alt="학교 순위" className="menu-icon" />학교 순위
               </Link>
             </li>
           </ul>
@@ -93,9 +102,12 @@ function App() {
           <Route path="/mart" element={<Mart toggleSidebar={toggleSidebar} />} />
           <Route path="/bank" element={<Bank toggleSidebar={toggleSidebar} />} />
           <Route path="/airport" element={<Airport toggleSidebar={toggleSidebar} />} />
-          <Route path="login" element={<Login toggleSidebar={toggleSidebar} />} />
-          <Route path="/signup" element={<Signup toggleSidebar={toggleSidebar} />} />
-        </Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/StudySetup" element={<StudySetup />} />
+          <Route path="/learning-settings" element={<LearningSettings />} />
+          <Route path="/school-ranking" element={<SchoolRanking toggleSidebar={toggleSidebar} />} />
+         </Routes>
       </main>
     </div>
   );

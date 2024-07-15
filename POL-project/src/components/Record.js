@@ -7,7 +7,6 @@ function App() {
     const [gptResponse, setGptResponse] = useState('');
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
-
     const startRecord = () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {

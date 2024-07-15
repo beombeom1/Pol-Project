@@ -36,6 +36,7 @@ app.post('/api/openai', async (req, res) => {
         systemContent += `The difficulty level is ${difficulty === '상' ? 'advanced' : difficulty === '중' ? 'intermediate' : 'beginner'}. `;
         systemContent += `Each question should have 4 options labeled A, B, C, and D. Provide feedback for each option and the correct answer in JSON format as follows: {
             "question": "",
+            "passage": "${topic === '독해' ? 'Please generate a passage for the reading comprehension question.' : ''}",
             "options": {"A": "", "B": "", "C": "", "D": ""},
             "answer": "",
             "feedback": {"A": "", "B": "", "C": "", "D": ""},

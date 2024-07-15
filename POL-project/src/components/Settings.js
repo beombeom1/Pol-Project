@@ -1,78 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Settings.css';
+const StudySetup = () => {
+  const [goal, setGoal] = useState('');
+  const [level, setLevel] = useState('');
+  const [userInfo, setUserInfo] = useState({});
+  const navigate = useNavigate();
+  const userid = localStorage.getItem('userid');
 
-const Settings = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [difficulty, setDifficulty] = useState('medium');
-  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    if (userid) {
+      fetchUserInfo();
+    }
+  }, [userid]);
 
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleDifficultyChange = (e) => setDifficulty(e.target.value);
-  const handleDarkModeChange = () => setDarkMode(!darkMode);
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3002/userinfo/${userid}`);
+      setUserInfo(response.data);
+    } catch (error) {
+      console.error('사용자 정보 가져오기 중 에러 발생:', error);
+    }
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Account Settings:', { username, email, password, difficulty });
-    // Additional logic to submit settings (e.g., to backend) can be added here
+  
+    try {
+      console.log({ userid, goal, level }); // 전송할 데이터를 로그로 확인합니다.
+      const response = await axios.post('http://localhost:3002/setup', { userid, goal, level });
+      console.log(response.data); // 서버로부터의 응답을 확인합니다.
+      alert('설정이 완료되었습니다.');
+      navigate('/'); // 설정 완료 후 메인 페이지로 이동
+    } catch (error) {
+      console.error(error);
+      alert('설정에 실패했습니다.');
+    }
   };
 
   return (
-    <div className="settings-container">
-      <form onSubmit={handleSubmit} className="settings-section">
-        <h2>프로필</h2>
-        <div className="form-group">
-          <label>
-            <h3>username</h3>
-          
-          </label>
+    <div>
+      <div className='user-profile'>
+        <h2>{userid}님 </h2>
+        <div className="profile-info">
+          <p className='user-info'>
+            학교 : {userInfo.school}<br />
+            순위 : {userInfo.rank}위<br />
+            등급 : {userInfo.tier}<br />
+            난이도 : {userInfo.level}<br />
+            포인트: {userInfo.point}
+          </p>
         </div>
-        <div className="form-group">
-          <label>
-            <h3>ID</h3>
-          
-          </label>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <h2>학습 설정</h2>
+        <div>
+          <label htmlFor="goal">학습 목표:</label>
+          <select
+            id="goal"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            required
+          >
+            <option value="">학습 목표를 선택하세요</option>
+            <option value="문법">문법</option>
+            <option value="독해">독해</option>
+          </select>
         </div>
-        <div className="form-group">
-        
+        <div>
+          <label htmlFor="level">난이도:</label>
+          <select
+            id="level"
+            value={level}
+            onChange={(e) => setLevel(e.target.value)}
+            required
+          >
+            <option value="">난이도를 선택하세요</option>
+            <option value="상">상</option>
+            <option value="중">중</option>
+            <option value="하">하</option>
+          </select>
         </div>
-        <div className="form-group">
-     
-        </div>
-        <button type="submit" className="save-button">저장</button>
+        <button type="submit">
+          설정 완료
+        </button>
       </form>
-      <div className="settings-section">
-      <h2>난이도 </h2>
-      <div className="form-group">
-      <label>
-           
-            <select value={difficulty} onChange={handleDifficultyChange}>
-              <option value="easy">쉬움</option>
-              <option value="medium">보통</option>
-              <option value="hard">어려움</option>
-            </select>
-          </label>
-      </div>
-      </div>
-
-      <div className="settings-section">
-        <h2>테마 설정</h2>
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={handleDarkModeChange}
-            />
-            다크 모드
-          </label>
-        </div>
-      </div>
     </div>
   );
 };
 
-export default Settings;
+export default StudySetup;
