@@ -2,12 +2,11 @@
   margin-top: 3%;
   background-color: #fff6dc;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 2px solid black;
-  margin-left: 15%;
-  width: 500px;
-  height: 300px;
+  width: 90%; /* 너비를 더 넓게 설정 */
+  height: 40%; /* 높이를 내용에 맞게 자동 조정 */
+  margin-left: auto;
+  margin-right: auto; /* 수평 중앙 정렬 */
 }
 
 .learning-settings-container h2 {
@@ -15,7 +14,8 @@
   text-align: center;
   margin-top: 5%;
   font-size: 30px;
-  margin-left: 13%;
+  margin-left: auto;
+  margin-right: auto;
   width: 70%;
 }
 
@@ -27,8 +27,8 @@
 }
 
 .words div {
-  width: 45%; /* 두 줄로 나눠서 각 아이템의 너비를 45%로 설정 */
-  margin: 10px; /* 원하는 간격으로 조정 */
+  width: 45%;
+  margin: 10px;
   box-sizing: border-box;
 }
 
