@@ -51,7 +51,6 @@ const StudySetup = () => {
             난이도 : {userInfo.level}<br />
             포인트: {userInfo.point}
           </p>
-          <button className='logout-button'>로그아웃</button>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
