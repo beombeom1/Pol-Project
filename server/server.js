@@ -28,6 +28,16 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
+const determineTier = (point) => {
+  if (point >= 1000) return 'master';
+  if (point >= 600) return 'diamond';
+  if (point >= 400) return 'platinum';
+  if (point >= 200) return 'gold';
+  if (point >= 100) return 'silver';
+  if (point >= 51) return 'bronze';
+  return 'bronze';
+};
+
 // 서비스 계정 키 파일 경로 설정
 const speechClient = new SpeechClient({
   keyFilename: process.env.SPEECH_KEY_FILENAME // JSON 키 파일의 실제 경로
@@ -445,18 +455,75 @@ app.get('/ranking', (req, res) => {
   });
 });
 
+app.get('/user_ranking', (req, res) => {
+  const userRankQuery = `
+    SELECT userid, name, school, point, tier
+    FROM users
+    WHERE point > 0
+    ORDER BY point DESC
+    LIMIT 10;
+  `;
 
-app.post('/update-point', (req, res) => {
-  const { userid, increment } = req.body;
-  const updateQuery = 'UPDATE users SET point = point + ? WHERE userid = ?';
-
-  connection.query(updateQuery, [increment, userid], (err, results) => {
+  connection.query(userRankQuery, (err, userRankResults) => {
     if (err) {
-      console.error('포인트 업데이트 중 오류 발생:', err);
+      console.error('개인별 순위 조회 중 오류 발생:', err);
       res.status(500).send('서버 오류');
       return;
     }
-    res.send('포인트 업데이트 성공');
+    res.json(userRankResults);
+  });
+});
+
+const calculatePoints = (isCorrect, level) => {
+  const points = { '하': 1, '중': 2, '상': 3 };
+  if (isCorrect) {
+    return points[level];
+  } else {
+    return level === '상' ? -2 : -1;
+  }
+};
+
+app.post('/update-point', (req, res) => {
+  const { userid, isCorrect, level } = req.body;
+  console.log(`Received data - userid: ${userid}, isCorrect: ${isCorrect}, level: ${level}`);
+
+  const getUserQuery = 'SELECT point, tier FROM users WHERE userid = ?';
+
+  connection.query(getUserQuery, [userid], (err, results) => {
+    if (err) {
+      console.error('사용자 조회 중 오류 발생:', err);
+      res.status(500).send('서버 오류');
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).send('사용자를 찾을 수 없습니다.');
+      return;
+    }
+    const currentTier = results[0].tier;
+    const currentPoint = results[0].point;
+    const increment = calculatePoints(isCorrect, level);
+    console.log(`Calculated points - increment: ${increment}, currentPoint: ${currentPoint}`);
+
+    let newPoint = currentPoint + increment;
+
+    // 포인트가 0 미만이면 0으로 설정
+    if (newPoint < 0) {
+      newPoint = 0;
+    }
+
+    const newTier = determineTier(newPoint);
+    console.log(`Updating user ${userid} with point ${newPoint} and tier ${newTier}`);
+
+    const updateQuery = 'UPDATE users SET point = ?, tier = ? WHERE userid = ?';
+    connection.query(updateQuery, [newPoint, newTier, userid], (err, results) => {
+      if (err) {
+        console.error('포인트 업데이트 중 오류 발생:', err);
+        res.status(500).send('서버 오류');
+        return;
+      }
+      res.json({ newTier, currentTier }); // 현재 티어와 새로운 티어를 반환
+    });
   });
 });
 

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './SchoolRanking.css'; // CSS 파일 추가
 
 function Learn({ toggleSidebar }) {
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(false); // submitted 상태 추가
     const [isCorrect, setIsCorrect] = useState(false);
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
@@ -58,19 +59,42 @@ function Learn({ toggleSidebar }) {
     };
 
     const handleAnswerSubmit = async () => {
-        if (selectedOption) {
-            const correct = selectedOption === response.answer;
-            setIsCorrect(correct);
-            setSubmitted(true);
+        if (submitted) {
+            alert('이미 제출한 문제입니다.'); // 이미 제출한 경우 알림 표시
+            return;
+        }
 
-            if (correct) {
-                try {
-                    await axios.post('http://localhost:3002/update-point', { userid, increment: 1 });
-                    alert('포인트가 업데이트되었습니다.');
-                } catch (error) {
-                    console.error('포인트 업데이트 중 오류 발생:', error);
-                    setError('포인트 업데이트 중 오류 발생');
+        if (selectedOption) {
+            const correct = selectedOption === response.correct_answer;
+            setIsCorrect(correct);
+            setSubmitted(true); // 제출 상태 설정
+            console.log(`Submitting answer - correct: ${correct}, level: ${level}`);
+
+            try {
+                const res = await axios.post('http://localhost:3002/update-point', {
+                    userid,
+                    isCorrect: correct,
+                    level
+                });
+                console.log('포인트 업데이트 성공:', res.data);
+                const { newTier, currentTier } = res.data; // 서버로부터 현재 티어와 새로운 티어를 받아옵니다.
+
+                if (correct) {
+                    alert('정답입니다! 포인트가 증가했습니다.');
+                } else {
+                    alert('오답입니다. 포인트가 감소했습니다.');
                 }
+
+                // 디버깅을 위한 로그 추가
+                console.log(`currentTier: ${currentTier}, newTier: ${newTier}`);
+
+                // 티어가 변경된 경우 알림을 표시합니다.
+                if (newTier !== currentTier) { 
+                    alert(`티어가 변경되었습니다! 새로운 티어: ${newTier}`);
+                }
+            } catch (error) {
+                console.error('포인트 업데이트 중 오류 발생:', error);
+                alert('포인트 업데이트 중 오류가 발생했습니다.');
             }
         } else {
             alert('문항을 선택해주세요.');
@@ -91,7 +115,7 @@ function Learn({ toggleSidebar }) {
                         value={`${goal} ${level}`}
                         readOnly
                     />
-                    <button type="submit">다음문제</button>
+                    <button type="submit">다음 문제</button>
                 </form>
                 
                 <div>
