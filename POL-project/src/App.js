@@ -3,7 +3,7 @@ import { Route, Routes, Link, useLocation } from 'react-router-dom';
 import Main from './components/Main';
 import Learn from './components/Learn';
 import Speak from './components/Speak';
-import MemoryGame from './components/MemoryGame';
+import MemoryGame from './components/MemoryGame.js';
 import Settings from './components/Settings';
 import School from './components/situation/School';
 import Airport from './components/situation/Airport';
@@ -23,6 +23,8 @@ import gameIcon from './assets/game.png';
 import settingsIcon from './assets/settings.png';
 import Login from './Login.js';
 import Signup from './Signup.js';
+import StudySetup from './StudySetup.js';
+import LearningSettings from './components/LearningSettings.js';
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -91,8 +93,10 @@ function App() {
           <Route path="/mart" element={<Mart toggleSidebar={toggleSidebar} />} />
           <Route path="/bank" element={<Bank toggleSidebar={toggleSidebar} />} />
           <Route path="/airport" element={<Airport toggleSidebar={toggleSidebar} />} />
-          <Route path="login" element={<Login toggleSidebar={toggleSidebar} />} />
-          <Route path="/signup" element={<Signup toggleSidebar={toggleSidebar} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/StudySetup" element={<StudySetup />} />
+          <Route path="/learning-settings" element={<LearningSettings />} />
         </Routes>
       </main>
     </div>

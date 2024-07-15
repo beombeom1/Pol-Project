@@ -16,7 +16,7 @@ const StudySetup = () => {
       const response = await axios.post('http://localhost:3002/setup', { userid, goal, level });
       console.log(response.data); // 서버로부터의 응답을 확인합니다.
       alert('설정이 완료되었습니다.');
-      navigate('/home');
+      navigate('/'); // 설정 완료 후 메인 페이지로 이동
     } catch (error) {
       console.error(error);
       alert('설정에 실패했습니다.');
@@ -37,7 +37,6 @@ const StudySetup = () => {
             style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           >
             <option value="">학습 목표를 선택하세요</option>
-            <option value="회화">회화</option>
             <option value="문법">문법</option>
             <option value="독해">독해</option>
           </select>

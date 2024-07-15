@@ -16,14 +16,19 @@ const Login = ({ login }) => {
       const { goal, level } = response.data;
       console.log('Goal:', goal, 'Level:', level);
 
+      // 이전 로그인 데이터 초기화
+      localStorage.removeItem('words');
+      localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
+
       if (goal == null || level == null) {
-        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
         alert('학습 설정이 필요합니다.');
         navigate('/StudySetup');
       } else {
-        localStorage.setItem('userid', userid); // 로그인 성공 후 userid 저장
+        // 로그인 성공 후 단어를 가져와서 저장
+        const wordsResponse = await axios.get(`http://localhost:3003/recommend-words/${userid}`);
+        localStorage.setItem('words', JSON.stringify(wordsResponse.data.words));
         alert('로그인 성공');
-        navigate('/Main');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -55,7 +60,7 @@ const Login = ({ login }) => {
             required
           />
         </div>
-        <button className='lg-btn'type="submit">로그인</button>
+        <button className='lg-btn' type="submit">로그인</button>
       </form>
       <div className="additional-links">
         <a href="#">아이디 찾기</a> |

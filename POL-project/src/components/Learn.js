@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Learn.css'; // CSS 파일을 가져옵니다.
 
 function Learn({ toggleSidebar }) {
     const [response, setResponse] = useState({});
@@ -67,34 +68,33 @@ function Learn({ toggleSidebar }) {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
+        <div className="questions">
+            <header className="question-header">
                 <button className="sidebar-toggle" onClick={toggleSidebar}>
                     ☰
                 </button>
-                <div></div>
-                <h2>문제풀기 {name}의 </h2>
-                <form onSubmit={handleSubmit}>
+                <h2>문제풀기</h2>
+                <form onSubmit={handleSubmit} className="questions-line">
                     <input
                         type="hidden"
                         value={`${goal} ${level}`}
                         readOnly
                     />
-                    <button type="submit">다음문제</button>
+                    <button type="submit" className="next-question-button">다음문제</button>
                 </form>
                 
                 <div>
-                    <h2>응답:</h2>
+                    
                     {error && <p style={{color: 'red'}}>{error}</p>}
                     {response.question && (
-                        <div>
+                        <div className="check-questions">
                             {response.passage && (
                                 <div>
-                                    <p><strong>지문:</strong></p>
+                                    <p><strong>지문</strong></p>
                                     <p>{response.passage}</p>
                                 </div>
                             )}
-                            <p>질문: {response.question}</p>
+                            <p className='questions-kind'>질문: {response.question}</p>
                             <form>
                                 <div>
                                     <input 
@@ -145,9 +145,9 @@ function Learn({ toggleSidebar }) {
                                 </div>
                                 {submitted && <div>{response.feedback && response.feedback.D}</div>}
                             </form>
-                            <button onClick={handleAnswerSubmit}>제출하기</button>
+                            <button className="submit-button" onClick={handleAnswerSubmit}>제출하기</button>
                             {submitted && (
-                                <p>
+                                <p className={isCorrect ? 'question-success' : 'question-failure'}>
                                     {isCorrect ? '정답입니다!' : '오답입니다.'}
                                 </p>
                             )}
