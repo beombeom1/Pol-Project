@@ -51,7 +51,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // MySQL 연결 설정
 const connection = mysql.createConnection({
-  host: '172.30.96.159',
+  host: 'localhost',
   user: 'root',
   password: 'wjddn133',
   database: 'poldb'
@@ -277,6 +277,11 @@ app.post('/attendance', (req, res) => {
   const { userid } = req.body;
   const attendance_date = new Date().toISOString().slice(0, 10);
 
+  if (!userid) {
+    console.error('로그인 필요: userid가 제공되지 않았습니다.');
+    res.status(401).send('로그인이 필요합니다.');
+    return;
+  }
   const checkQuery = 'SELECT * FROM attendance WHERE userid = ? AND attendance_date = ?';
   connection.query(checkQuery, [userid, attendance_date], (checkErr, checkResults) => {
     if (checkErr) {
@@ -307,6 +312,7 @@ app.post('/attendance', (req, res) => {
 app.get('/attendance/:userid', (req, res) => {
   const { userid } = req.params;
 
+  
   const query = 'SELECT * FROM attendance WHERE userid = ?';
   connection.query(query, [userid], (err, results) => {
     if (err) {
@@ -418,12 +424,19 @@ app.get('/events/search/:userid', (req, res) => {
   });
 });
 
-// 사용자 정보를 가져오는 엔드포인트 추가
+// 사용자 정보를 가져오는 엔드포인트 
 app.get('/userinfo/:userid', (req, res) => {
   const { userid } = req.params;
 
-  const query = 'SELECT name, goal, level FROM users WHERE userid = ?';
-  connection.query(query, [userid], (err, results) => {
+  const userQuery = `
+    SELECT 
+      name, goal, level, school, point, tier,
+      (SELECT COUNT(*) + 1 FROM users WHERE point > users.point) AS \`rank\`
+    FROM users
+    WHERE userid = ?
+  `;
+
+  connection.query(userQuery, [userid], (err, results) => {
     if (err) {
       console.error('DB에서 사용자 정보를 가져오는 중 에러 발생:', err);
       res.status(500).send('서버 오류');
