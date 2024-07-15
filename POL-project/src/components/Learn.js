@@ -1,18 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './SchoolRanking.css'; // CSS 파일 추가
 import './Learn.css'; // CSS 파일을 가져옵니다.
 
 function Learn({ toggleSidebar }) {
-    const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState({});
     const [error, setError] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(false); // submitted 상태 추가
     const [isCorrect, setIsCorrect] = useState(false);
-    const [showQuestion, setShowQuestion] = useState(false); // 추가된 상태
+    const [name, setName] = useState('');
+    const [goal, setGoal] = useState('');
+    const [level, setLevel] = useState('');
+
+    const userid = localStorage.getItem('userid');
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const res = await axios.get(`http://localhost:3002/userinfo/${userid}`);
+                console.log('User Info:', res.data);  // 응답 데이터를 로그에 출력
+                setName(res.data.name);
+                setGoal(res.data.goal);
+                setLevel(res.data.level);
+            } catch (error) {
+                console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+            }
+        };
+    
+        if (userid) {
+            fetchUserInfo(); // 사용자 정보를 가져오는 함수 호출
+        }
+    }, [userid]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const prompt = `${goal} ${level}`;
 
         try {
             const res = await axios.post('http://localhost:3001/api/openai', { prompt });
@@ -21,7 +45,6 @@ function Learn({ toggleSidebar }) {
                 setResponse(res.data);
                 setError(''); // 오류 상태 초기화
                 setSubmitted(false); // 제출 상태 초기화
-                setShowQuestion(true); // 문제를 보여줍니다
             } else {
                 console.error('Unexpected response format:', res.data);
                 setError('Error: Unexpected response format');
@@ -36,10 +59,44 @@ function Learn({ toggleSidebar }) {
         setSelectedOption(e.target.value);
     };
 
-    const handleAnswerSubmit = () => {
+    const handleAnswerSubmit = async () => {
+        if (submitted) {
+            alert('이미 제출한 문제입니다.'); // 이미 제출한 경우 알림 표시
+            return;
+        }
+
         if (selectedOption) {
-            setIsCorrect(selectedOption === response.answer);
-            setSubmitted(true);
+            const correct = selectedOption === response.correct_answer;
+            setIsCorrect(correct);
+            setSubmitted(true); // 제출 상태 설정
+            console.log(`Submitting answer - correct: ${correct}, level: ${level}`);
+
+            try {
+                const res = await axios.post('http://localhost:3002/update-point', {
+                    userid,
+                    isCorrect: correct,
+                    level
+                });
+                console.log('포인트 업데이트 성공:', res.data);
+                const { newTier, currentTier } = res.data; // 서버로부터 현재 티어와 새로운 티어를 받아옵니다.
+
+                if (correct) {
+                    alert('정답입니다! 포인트가 증가했습니다.');
+                } else {
+                    alert('오답입니다. 포인트가 감소했습니다.');
+                }
+
+                // 디버깅을 위한 로그 추가
+                console.log(`currentTier: ${currentTier}, newTier: ${newTier}`);
+
+                // 티어가 변경된 경우 알림을 표시합니다.
+                if (newTier !== currentTier) { 
+                    alert(`티어가 변경되었습니다! 새로운 티어: ${newTier}`);
+                }
+            } catch (error) {
+                console.error('포인트 업데이트 중 오류 발생:', error);
+                alert('포인트 업데이트 중 오류가 발생했습니다.');
+            }
         } else {
             alert('문항을 선택해주세요.');
         }
@@ -51,14 +108,15 @@ function Learn({ toggleSidebar }) {
                 <button className="sidebar-toggle" onClick={toggleSidebar}>
                     ☰
                 </button>
-                <h2>문제풀기</h2>
-                <form onSubmit={handleSubmit} className="questions-line">
+                <div></div>
+                <h2>{name}의 문제풀기</h2>
+                <form onSubmit={handleSubmit}>
                     <input
                         type="hidden"
                         value={`${goal} ${level}`}
                         readOnly
                     />
-                    <button type="submit" className="next-question-button">다음문제</button>
+                    <button type="submit">다음 문제</button>
                 </form>
                 
                 <div>
