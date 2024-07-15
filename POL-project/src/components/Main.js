@@ -165,6 +165,7 @@ function Main({ setSidebarVisible }) {
             return; // 출석체크 이벤트일 경우 아무 일도 일어나지 않게 함
         }
         setSelectedEvent(event);
+        setIsEditing(true);
     };
 
     const handleDeleteEvent = async () => {
@@ -272,55 +273,62 @@ function Main({ setSidebarVisible }) {
                 <div className="word-of-the-day">
                     <h2>학교 랭킹</h2>
                     {schoolRankings.map((school, index) => (
-                        <p key={index}>{school.school} ········ {school.total_point}p</p>
+                      <div key={index} className="school-ranking-item">
+                        <span className="school-name">{school.school}</span>
+                        <span className="separator">········</span>
+                        <span className="school-points">{school.total_point}p</span>
+                      </div>
                     ))}
-                </div>
+                  </div>
             </div>
 
             {
-                selectedEvent && (
-                    <div className="modal">
-                        <div className="modal-content">
-                            <span className="close-button" onClick={() => setSelectedEvent(null)}>&times;</span>
-                            {isEditing ? (
-                                <>
-                                    <h2>이벤트 수정</h2>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        value={selectedEvent.title}
-                                        onChange={handleChange}
-                                    />
-                                    <input
-                                        type="date"
-                                        name="start"
-                                        value={moment(selectedEvent.start).format('YYYY-MM-DD')}
-                                        onChange={handleChange}
-                                    />
-                                    <input
-                                        type="date"
-                                        name="end"
-                                        value={moment(selectedEvent.end).format('YYYY-MM-DD')}
-                                        onChange={handleChange}
-                                    />
-                                    <button onClick={handleEditEvent}>저장</button>
-                                    <button onClick={() => setIsEditing(false)}>취소</button>
-                                </>
-                            ) : (
-                                <>
-                                    <h2>{selectedEvent.title}</h2>
-                                    <p>
-                                        시작 날짜: {selectedEvent.start.toDateString()}<br />
-                                        종료 날짜: {selectedEvent.end.toDateString()}
-                                    </p>
-                                    <button onClick={() => setIsEditing(true)}>수정</button>
-                                    <button onClick={handleDeleteEvent}>삭제</button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )
-            }
+    selectedEvent && (
+        <div className="modal">
+            <div className="modal-content">
+                <span className="close-button" onClick={() => setSelectedEvent(null)}>&times;</span>
+                {isEditing ? (
+                    <>
+                        <h2>이벤트 수정</h2>
+                        <input
+                            type="text"
+                            name="title"
+                            value={selectedEvent.title}
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="date"
+                            name="start"
+                            value={moment(selectedEvent.start).format('YYYY-MM-DD')}
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="date"
+                            name="end"
+                            value={moment(selectedEvent.end).format('YYYY-MM-DD')}
+                            onChange={handleChange}
+                        />
+                        <button onClick={handleEditEvent}>저장</button>
+                        <button onClick={() => {
+                            setIsEditing(false);
+                            setSelectedEvent(null);
+                        }}>취소</button>
+                    </>
+                ) : (
+                    <>
+                        <h2>{selectedEvent.title}</h2>
+                        <p>
+                            시작 날짜: {new Date(selectedEvent.start).toDateString()}<br />
+                            종료 날짜: {new Date(selectedEvent.end).toDateString()}
+                        </p>
+                        <button onClick={() => setIsEditing(true)}>수정</button>
+                        <button onClick={handleDeleteEvent}>삭제</button>
+                    </>
+                )}
+            </div>
+        </div>
+    )
+}
             {
                 isSearchModalOpen && (
                     <div className="modal">
