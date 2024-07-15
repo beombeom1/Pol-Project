@@ -25,6 +25,8 @@ import Login from './Login.js';
 import Signup from './Signup.js';
 import StudySetup from './StudySetup.js';
 import LearningSettings from './components/LearningSettings.js';
+import SchoolRanking from './components/SchoolRanking';
+
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -75,6 +77,11 @@ function App() {
                 <img src={settingsIcon} alt="설정" className="menu-icon" />설정
               </Link>
             </li>
+            <li>
+              <Link to="/school-ranking" onClick={() => setSidebarVisible(false)}>
+                <img src={settingsIcon} alt="학교 순위" className="menu-icon" />학교 순위
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -98,7 +105,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/StudySetup" element={<StudySetup />} />
           <Route path="/learning-settings" element={<LearningSettings />} />
-        </Routes>
+          <Route path="/school-ranking" element={<SchoolRanking toggleSidebar={toggleSidebar} />} />
+         </Routes>
       </main>
     </div>
   );
