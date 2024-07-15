@@ -253,6 +253,7 @@ function Main({ setSidebarVisible }) {
                             학교 : {userInfo.school}<br></br>
                             순위 : {userInfo.rank}위<br></br>
                             등급 : {userInfo.tier}<br></br>
+                            목적 : {userInfo.goal}<br></br>
                             난이도 : {userInfo.level}<br></br>
                             포인트: {userInfo.point}
                         </p>
