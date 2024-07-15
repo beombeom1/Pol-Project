@@ -3,7 +3,16 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+.questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   background-color: #fff6dc;
+}
+
+.question-header {
+  background: #fff6dc;
 }
 
 .question-header {
@@ -12,7 +21,13 @@
   border-radius: 8px;
   max-width: 800px;
   width: 100%;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 100%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,16 +36,24 @@
 .sidebar-toggle {
   background-color: #fff6dc;
   color: rgb(0, 0, 0);
+  background-color: #fff6dc;
+  color: rgb(0, 0, 0);
   border: none;
+  padding: 10px 15px;
+  font-size: 18px;
   padding: 10px 15px;
   font-size: 18px;
   cursor: pointer;
   border-radius: 4px;
   margin-bottom: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 .questions-line {
+.questions-line {
   display: flex;
+  flex-direction: column;
   flex-direction: column;
   justify-content: center;
   align-items: center; 
@@ -38,6 +61,23 @@
   margin-bottom: 20px;
 }
 
+.next-question-button {
+  font-family: "Gamja Flower", sans-serif;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 26px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.next-question-button:hover {
+  background-color: #218838;
+}
+
+.check-questions {
 .next-question-button {
   font-family: "Gamja Flower", sans-serif;
   background-color: #28a745;
@@ -63,11 +103,13 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  font-size: 22px; /* 글씨 크기 키움 */
 }
 
 label {
-  font-size: 16px;
+  font-size: 27px !important; /* 글씨 크기 키움 */
   margin-left: 10px;
+  cursor: pointer; /* 라벨 클릭 시 포인터 변경 */
 }
 
 input[type="radio"] {
@@ -75,7 +117,13 @@ input[type="radio"] {
 }
 
 .submit-button {
+.submit-button {
   font-family: "Gamja Flower", sans-serif;
+  background-color: #ad22fdb6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
   background-color: #ad22fdb6;
   color: white;
   border: none;
@@ -84,8 +132,12 @@ input[type="radio"] {
   cursor: pointer;
   border-radius: 4px;
   margin-top: 20px;
+  border-radius: 4px;
+  margin-top: 20px;
 }
 
+.submit-button:hover {
+  background-color: #7a02c0;
 .submit-button:hover {
   background-color: #7a02c0;
 }
@@ -106,7 +158,7 @@ input[type="radio"] {
   font-family: "Gamja Flower", sans-serif;
 }
 
-.start-text{
+.start-text {
   width: 100%;
   font-size: 30px;
 }
