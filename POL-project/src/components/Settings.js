@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
-const StudySetup = () => {
+
+const Settings = ({ toggleSidebar }) => {
   const [goal, setGoal] = useState('');
   const [level, setLevel] = useState('');
   const [userInfo, setUserInfo] = useState({});
@@ -40,44 +41,42 @@ const StudySetup = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
-      <div className='user-profile' style={{ marginBottom: '20px', textAlign: 'center' }}>
+    <div className="settings-container">
+      {toggleSidebar && <button className="sidebar-toggle" onClick={toggleSidebar}>☰</button>}
+      <div className='settings-profile'>
         <h2>{userid}님 </h2>
-        <div className="profile-info">
-          <p className='user-info'>
+        <div className="settings-profile-info">
+          <p className='settings-user-info'>
             학교 : {userInfo.school}<br />
             순위 : {userInfo.rank}위<br />
             등급 : {userInfo.tier}<br />
             난이도 : {userInfo.level}<br />
             포인트: {userInfo.point}
           </p>
-          <button className='logout-button'>로그아웃</button>
         </div>
       </div>
       <form className='setting-button' onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
         <h2>학습 설정</h2>
-        <div style={{ marginBottom: '10px' }}>
+        <div>
           <label htmlFor="goal">학습 목표:</label>
           <select
             id="goal"
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           >
             <option value="">학습 목표를 선택하세요</option>
             <option value="문법">문법</option>
             <option value="독해">독해</option>
           </select>
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div>
           <label htmlFor="level">난이도:</label>
           <select
             id="level"
             value={level}
             onChange={(e) => setLevel(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', margin: '5px 0' }}
           >
             <option value="">난이도를 선택하세요</option>
             <option value="상">상</option>
@@ -85,7 +84,7 @@ const StudySetup = () => {
             <option value="하">하</option>
           </select>
         </div>
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', cursor: 'pointer' }}>
+        <button type="submit">
           설정 완료
         </button>
       </form>
@@ -93,4 +92,4 @@ const StudySetup = () => {
   );
 };
 
-export default StudySetup;
+export default Settings;

@@ -79,7 +79,7 @@ function MemoryGame({ toggleSidebar }) {
   return (
     <div className="memory-game-container">
       {toggleSidebar && <button className="sidebar-toggle" onClick={toggleSidebar}>☰</button>}
-      <h1>단어 카드 맞추기 게임</h1><br></br><br></br>
+      <h1 className='mini-title'>단어 카드 맞추기 게임</h1>
       <div className="cards">
         {cards.map((card, index) => (
           <div 

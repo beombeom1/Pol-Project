@@ -1,35 +1,30 @@
 /* .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   flex-direction: column;
 } */
 
-.user-profile {
+/* 프로필 정보 가운데 정렬 및 스타일 */
+.settings-profile {
+  padding: 20px;
   margin-bottom: 20px;
   text-align: center;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  align-items: center; 
-  width: 300px;
+  background-color: #f9f9f9; /* 약간의 배경색 추가 */
+  border-radius: 10px; /* 모서리를 둥글게 */
+  width: 80%;
+  max-width: 600px;
 }
 
-.profile-info p {
-  margin: 5px 0;
+.settings-profile h2 {
+  font-size: 28px; /* 큰 글자 크기 */
+  margin-bottom: 20px; /* 여백 추가 */
+}
+
+.settings-profile-info {
   text-align: left;
 }
 
-.logout-button {
-  padding: 10px 20px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 10px;
+.settings-user-info {
+  font-weight: bold; /* 글자 두껍게 */
 }
 
 .logout-button:hover {

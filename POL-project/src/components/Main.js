@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Link,useNavigate } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Main.css';
+import LearningSettings from './LearningSettings';
 
 const localizer = momentLocalizer(moment);
 
@@ -158,6 +159,7 @@ function Main({ setSidebarVisible }) {
     };
     const handleLogout = () => {
       localStorage.removeItem('userid'); // 로컬 스토리지에서 userid 제거
+      alert('로그아웃 되었습니다')
       navigate('/login'); // 로그인 페이지로 리다이렉트
   };
     const handleSelectEvent = (event) => {
@@ -218,10 +220,6 @@ function Main({ setSidebarVisible }) {
     return (
         <div className="main-container">
             <header className="main-header" >
-                <div className="header-links">
-                    <Link className="login" to='/login' onClick={() => setSidebarVisible(false)}>로그인</Link>
-                    <Link className="signup" to='/signup' onClick={() => setSidebarVisible(false)}>회원가입</Link>
-                </div>
             </header >
             <div className='user-text'>{userid}님 환영해요! 오늘 하루는 어땠나요 ?</div>
             <div className="content-container">
@@ -263,13 +261,9 @@ function Main({ setSidebarVisible }) {
                 </div>
             </div>
             <div className="under-container">
-                <div className="school-ranking">
-                    <h2>오늘의 숙어 추천</h2>
-                    <p>Bite the bullet : 어려운 결정을 내리거나 고통스러운 일을 감내하다.</p>
-                    <p>Break the ice : 어색함을 없애거나 사람들과 친밀감을 돈독하게 만들다.</p>
-                    <p>Burn the midnight oil : 밤 늦게까지 일하다.</p>
-                    <p>Cost an arm and a leg : 매우 비싸다.</p>
-                </div>
+            <div className="school-ranking">
+              <LearningSettings />
+            </div>
                 <div className="word-of-the-day">
                     <h2>학교 랭킹</h2>
                     {schoolRankings.map((school, index) => (

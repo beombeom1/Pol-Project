@@ -57,7 +57,7 @@
   }
   
   .card-front {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     color: #000;
   }
   
@@ -97,6 +97,9 @@
       0 0.2em 0 0 #43388d, 
       0 0.225em 0 0 #40357e, 
       0 0.225em 0.375em 0 #372d6d;
+  }
+  .mini-title{
+    margin-bottom: 750px;
   }
 
   .sidebar-toggle {
