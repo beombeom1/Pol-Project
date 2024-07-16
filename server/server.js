@@ -53,7 +53,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'minsu1234',
+  password: 'wjddn133',
   database: 'poldb'
 });
 
