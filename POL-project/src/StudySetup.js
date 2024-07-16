@@ -16,7 +16,7 @@ const StudySetup = () => {
       const response = await axios.post('http://localhost:3002/setup', { userid, goal, level });
       console.log(response.data); // 서버로부터의 응답을 확인합니다.
       alert('설정이 완료되었습니다.');
-      navigate('/'); // 설정 완료 후 메인 페이지로 이동
+      navigate('/main'); // 설정 완료 후 메인 페이지로 이동
     } catch (error) {
       console.error(error);
       alert('설정에 실패했습니다.');
