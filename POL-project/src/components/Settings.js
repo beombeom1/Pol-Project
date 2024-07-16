@@ -54,7 +54,7 @@ const StudySetup = () => {
           <button className='logout-button'>로그아웃</button>
         </div>
       </div>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
+      <form className='setting-button' onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
         <h2>학습 설정</h2>
         <div style={{ marginBottom: '10px' }}>
           <label htmlFor="goal">학습 목표:</label>

@@ -325,7 +325,7 @@ app.get('/attendance/:userid', (req, res) => {
   });
 });
 
-// 이벤트 데이터 가져오기 API
+// 일정 데이터 가져오기 API
 app.get('/events/:userid', (req, res) => {
   const { userid } = req.params;
 
@@ -341,7 +341,7 @@ app.get('/events/:userid', (req, res) => {
   });
 });
 
-// 이벤트 추가 API
+// 일정 추가 API
 app.post('/events', (req, res) => {
   const { userid, title, start_date, end_date } = req.body;
 
@@ -354,7 +354,7 @@ app.post('/events', (req, res) => {
     }
 
     if (checkResults[0].count > 2) {
-      res.status(400).send('하루에 두 개 이상의 일정을 추가할 수 없습니다.');
+      res.status(400).send('하루에 세 개 이상의 일정을 추가할 수 없습니다.');
     } else {
       const query = 'INSERT INTO events (userid, title, start_date, end_date) VALUES (?, ?, ?, ?)';
       connection.query(query, [userid, title, start_date, end_date], (err, results) => {
@@ -370,7 +370,7 @@ app.post('/events', (req, res) => {
   });
 });
 
-// 이벤트 삭제 API
+// 일정 삭제 API
 app.delete('/events/:id', (req, res) => {
   const eventId = req.params.id;
 
@@ -385,7 +385,7 @@ app.delete('/events/:id', (req, res) => {
   });
 });
 
-// 이벤트 수정 API
+// 일정 수정 API
 app.put('/events/:id', (req, res) => {
   const eventId = req.params.id;
   const { title, start_date, end_date } = req.body;
@@ -465,7 +465,7 @@ app.post('/update-settings', (req, res) => {
   });
 });
 
-// 포인트 합계가 0이 아닌 학교의 포인트 합계를 가져오는 엔드포인트
+// 학교의 포인트 합계를 가져오는 엔드포인트
 app.get('/ranking', (req, res) => {
   const topRankQuery = `
     SELECT school, SUM(point) as total_point

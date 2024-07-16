@@ -1,10 +1,10 @@
-.container {
+/* .container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
-}
+} */
 
 .user-profile {
   margin-bottom: 20px;
@@ -20,7 +20,6 @@
 .profile-info p {
   margin: 5px 0;
   text-align: left;
-  
 }
 
 .logout-button {
@@ -37,41 +36,3 @@
   background-color: #c82333;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form h2 {
-  text-align: center;
-}
-
-form label {
-  margin-bottom: 5px;
-}
-
-form select,
-form button {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-form button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #0056b3;
-}
