@@ -12,23 +12,27 @@
 
 .message.gpt {
   justify-content: flex-start;
+  font-size: 36px;
+  
 }
 
 .message-content {
-  max-width: 60%;
+  max-width: 70%;
   padding: 10px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 60px;
 }
 
 .message.you .message-content {
   background-color: #DCF8C6;
   text-align: right;
+  font-size: 24px;
 }
 
 .message.gpt .message-content {
   background-color: #F1F0F0;
   text-align: left;
+  font-size: 24px;
 }
 
 .head-screen {

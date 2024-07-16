@@ -28,7 +28,7 @@ const Login = ({ login }) => {
         const wordsResponse = await axios.get(`http://localhost:3003/recommend-words/${userid}`);
         localStorage.setItem('words', JSON.stringify(wordsResponse.data.words));
         alert('로그인 성공');
-        navigate('/');
+        navigate('/main');
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

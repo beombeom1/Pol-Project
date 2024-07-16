@@ -65,6 +65,16 @@
   margin-bottom: 10px;
   font-size: 22px; /* 글씨 크기 키움 */
 }
+.Next-q{
+  margin-top: 20px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-family: "Gamja Flower", sans-serif;
+  font-size: large;
+}
+.Next-q:hover{
+  background-color: #e5dcbf;
+}
 
 label {
   font-size: 27px !important; /* 글씨 크기 키움 */

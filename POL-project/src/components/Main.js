@@ -159,6 +159,7 @@ function Main({ setSidebarVisible }) {
     };
     const handleLogout = () => {
       localStorage.removeItem('userid'); // 로컬 스토리지에서 userid 제거
+      alert('로그아웃 되었습니다')
       navigate('/login'); // 로그인 페이지로 리다이렉트
   };
     const handleSelectEvent = (event) => {
@@ -219,10 +220,6 @@ function Main({ setSidebarVisible }) {
     return (
         <div className="main-container">
             <header className="main-header" >
-                <div className="header-links">
-                    <Link className="login" to='/login' onClick={() => setSidebarVisible(false)}>로그인</Link>
-                    <Link className="signup" to='/signup' onClick={() => setSidebarVisible(false)}>회원가입</Link>
-                </div>
             </header >
             <div className='user-text'>{userid}님 환영해요! 오늘 하루는 어땠나요 ?</div>
             <div className="content-container">

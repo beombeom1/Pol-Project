@@ -119,7 +119,7 @@ function Learn({ toggleSidebar }) {
                         value={`${goal} ${level}`}
                         readOnly
                     />
-                    <button type="submit">다음 문제</button>
+                    <button className='Next-q'type="submit">다음 문제</button>
                 </form>
                 
                 <div>
