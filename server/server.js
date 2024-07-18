@@ -554,7 +554,7 @@ app.post('/update-point', (req, res) => {
         res.status(500).send('서버 오류');
         return;
       }
-      res.json({ newTier, currentTier }); // 현재 티어와 새로운 티어를 반환
+      res.json({ newTier, currentTier }); // 현재 티어와 새로운 티어를 반환.
     });
   });
 });
